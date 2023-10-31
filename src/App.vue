@@ -2,7 +2,15 @@
 
 <template>
   <div>
-    <h1>App Vue</h1>
+    <h1>Temp Nav</h1>
+    <p>
+      <router-link to="/product-list">Product Overview</router-link>
+      |
+      <router-link to="/product-details">Product Details</router-link>
+      |
+      <router-link to="/wishlist">Wishlist</router-link>
+    </p>
+    <router-view></router-view>
   </div>
 </template>
 
