@@ -1,0 +1,36 @@
+// PALETTE
+$c-rebel-hot-pink: #f91c84;
+$c-rebel-dark-pink: #ec0e6e;
+
+// COLORS
+$c-pink: $c-rebel-hot-pink;
+$c-pink--dark: $c-rebel-dark-pink;
+
+// GREYSCALE
+$c-grey--darkest: #35404f;
+$c-grey--darker: #7a818a;
+$c-grey--dark: #999;
+$c-grey: #aeaeae;
+$c-grey--light: #e4e4e4;
+$c-grey--lighter: #e9eaec;
+$c-grey--lightest: #f3f2f0;
+$c-grey--green: #edebe3;
+$c-grey--blue: #7a818a;
+
+// WHITE
+$c-white: #ffffff;
+$c-white--soft: #f8f8f8;
+$c-white--mute: #f2f2f2;
+
+// BLACK
+$c-black--pure: #000000;
+$c-black: #151515;
+$c-black--soft: #222222;
+$c-black--mute: #282828;
+
+// SHADOW
+$shadow: 0 4px 4px transparentize($c-black, 0.75);
+$shadow--hover: 0 4px 4px transparentize($c-black, 0.65);
+$shadow--large: 0 4px 24px transparentize($c-black, 0.75);
+$shadow--light: 0 4px 14px transparentize($c-black, 0.95);
+$shadow--form: 0 3px 10px transparentize($c-black, 0.7);
