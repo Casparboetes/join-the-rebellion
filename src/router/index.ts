@@ -1,28 +1,26 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
-import ProductDetails from '@/views/ProductDetails.vue';
-import Wishlist from '@/views/Wishlist.vue';
-import ProductList from '@/views/ProductList.vue';
+import ProductOverview from '@/views/ProductOverview.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'home',
-    redirect: () => ({ path: '/product-list' })
+    redirect: () => ({ path: '/product-overview' })
   },
   {
-    path: '/product-list',
-    name: 'product-list',
-    component: ProductList
+    path: '/product-overview',
+    name: 'product-overview',
+    component: ProductOverview
   },
   {
     path: '/product-details',
     name: 'productDetails',
-    component: ProductDetails
+    component: () => import('@/views/ProductDetails.vue')
   },
   {
     path: '/wishlist',
     name: 'wishlist',
-    component: Wishlist
+    component: () => import('@/views/Wishlist.vue')
   },
   {
     path: '/:pathMatch(.*)*',

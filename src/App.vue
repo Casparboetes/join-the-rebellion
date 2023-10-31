@@ -5,7 +5,7 @@
     <h1>Temp Nav</h1>
     <nav>
       <p>
-        <router-link to="/product-list">Product Overview</router-link>
+        <router-link to="/product-overview">Product Overview</router-link>
         |
         <router-link to="/product-details">Product Details</router-link>
         |
