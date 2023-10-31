@@ -12,7 +12,8 @@
     "json-server": "json-server --watch db.json"
   },
   "dependencies": {
-    "vue": "^3.3.4"
+    "vue": "^3.3.4",
+    "vue-router": "4"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.22.15",
