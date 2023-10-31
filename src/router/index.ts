@@ -18,9 +18,9 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/ProductDetails.vue')
   },
   {
-    path: '/wishlist',
-    name: 'wishlist',
-    component: () => import('@/views/Wishlist.vue')
+    path: '/wish-lists',
+    name: 'wish-lists',
+    component: () => import('@/views/WishLists.vue')
   },
   {
     path: '/:pathMatch(.*)*',

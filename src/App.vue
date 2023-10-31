@@ -9,7 +9,7 @@
         |
         <router-link to="/product-details">Product Details</router-link>
         |
-        <router-link to="/wishlist">Wishlist</router-link>
+        <router-link to="/wish-lists">Wish Lists</router-link>
       </p>
     </nav>
     <router-view></router-view>
