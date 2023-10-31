@@ -10,7 +10,7 @@ const navItems = ref<NavItem>([
 </script>
 
 <template>
-  <AppHeader :navItems="navItems" class="app__header" />
+  <AppHeader :nav-items="navItems" class="app__header" />
 
   <div class="app__main">
     <router-view></router-view>
