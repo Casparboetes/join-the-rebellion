@@ -2,6 +2,7 @@
 $screen-xs: 340px;
 $screen-minimal: 480px;
 $screen-simple: 768px;
+$screen-specific: 899px;
 $screen-normal: 1024px;
 $screen-large: 1280px;
 $screen-xl: 1440px;
@@ -10,13 +11,13 @@ $screen-jumbo: 1920px;
 
 // SITE
 $p-spacing: 16px;
-$p-gutter: 17px;
+$p-gutter: 16px;
 $w-site: $screen-xl + (2 * $p-gutter);
 $w-header: $w-site;
 
 // HEADER
-$h-header: 84px;
-$h-header-large: 140px;
+$h-header: 64px;
+$h-header-large: 84px;
 
 // IMAGE
 $w-image-large: 700px;
