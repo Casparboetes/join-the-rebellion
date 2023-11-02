@@ -2,19 +2,36 @@
 import { ref } from 'vue';
 import type { NavItem } from '@/models/nav-item.model.ts';
 import AppHeader from '@/components/AppHeader.vue';
+import AppDrawer from '@/components/AppDrawer.vue';
 
 const navItems = ref<NavItem>([
   { name: 'Product Overview', path: '/product-overview', id: 1 },
   { name: 'Wish Lists', path: '/wish-lists', id: 2 }
 ]);
+const toggle = ref(false);
+const handleToggle = (toggles: boolean) => (toggle.value = toggles);
 </script>
 
 <template>
-  <AppHeader :nav-items="navItems" class="app__header" />
-
-  <div class="app__main">
-    <router-view></router-view>
+  <div class="app">
+    <AppHeader :navItems="navItems" @emitToggle="handleToggle" />
+    <div class="app__main">
+      <AppDrawer :isOpen="toggle" :navItems="navItems" />
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.app {
+  &__main {
+    padding-top: $h-header;
+  }
+
+  @include screen($screen-specific) {
+    &__main {
+      margin-top: $h-header-large;
+    }
+  }
+}
+</style>
