@@ -145,7 +145,7 @@ onUnmounted(() => {
     font-size: 1.6rem;
     line-height: 186%;
     font-weight: 600;
-    font-family: 'Darker Grotesque';
+    font-family: 'Darker Grotesque', serif;
     letter-spacing: 0.01071em;
     text-decoration: none;
     color: $c-white;

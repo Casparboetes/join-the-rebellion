@@ -42,7 +42,7 @@ defineProps<{
   flex-direction: column;
   justify-content: space-between;
   color: $c-white;
-  font-family: 'Darker Grotesque';
+  font-family: 'Darker Grotesque', serif;
   font-size: 3.6rem;
   height: 0;
   top: $h-header;
@@ -112,7 +112,7 @@ defineProps<{
     color: $c-white;
     cursor: pointer;
     display: inline-flex;
-    font-family: 'Darker Grotesque';
+    font-family: 'Darker Grotesque', serif;
     font-size: 2rem;
     font-style: normal;
     font-weight: 700;
@@ -124,6 +124,7 @@ defineProps<{
     padding: 14px 34px 16px;
     position: unset;
     text-decoration: none;
+    text-transform: uppercase;
     transition:
       background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
       box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
