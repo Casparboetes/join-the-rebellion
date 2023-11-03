@@ -14,8 +14,9 @@ defineProps<{
         :src="product.image"
         class="products__item-image"
       />
-      <h2 class="products__item-name">{{ product.name }}</h2>
-      <p class="products__item-brand">{{ product.brand }}</p>
+      <h3 class="products__item-title">
+        {{ product.brand }} - {{ product.name }}
+      </h3>
       <p class="products__item-category">{{ product.category }}</p>
     </div>
   </div>
@@ -39,15 +40,16 @@ defineProps<{
       width: 100%;
     }
 
-    &-name {
-      font-size: 1.8rem;
+    &-title {
+      font-size: 1.6rem;
       font-weight: bold;
+      margin: 0.5rem 0;
     }
 
-    &-brand,
     &-category {
       color: #666;
       font-size: 1.4rem;
+      margin: 0.5rem 0;
     }
   }
 }
