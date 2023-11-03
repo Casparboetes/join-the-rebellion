@@ -28,7 +28,7 @@ defineProps<{
   justify-content: center;
 
   &__item {
-    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.15);
     margin-bottom: 2rem;
     padding: 2rem;
     width: calc(90% - 2rem);
