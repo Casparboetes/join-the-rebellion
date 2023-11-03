@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write src/",
-    "json-server": "json-server --watch db.json"
+    "db": "json-server --watch db.json"
   },
   "dependencies": {
     "vue": "^3.3.4",
