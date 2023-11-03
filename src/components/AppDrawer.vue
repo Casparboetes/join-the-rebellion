@@ -49,7 +49,7 @@ defineProps<{
   height: 0;
   top: $h-header;
   overflow: hidden;
-  position: absolute;
+  position: fixed;
   transition: all 0.4s ease-in-out;
   width: 100%;
 
