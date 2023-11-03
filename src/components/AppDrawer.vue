@@ -26,8 +26,10 @@ defineProps<{
       </ul>
     </nav>
     <div class="drawer__footer">
-      <p class="drawer__label">Geïnteresseerd in Rebelion?</p>
-      <button class="drawer__button">Contact Me</button>
+      <p class="drawer__label">Interested in my work?</p>
+      <div class="drawer__button-container">
+        <button class="drawer__button">Contact me</button>
+      </div>
     </div>
   </div>
 </template>
@@ -99,14 +101,19 @@ defineProps<{
 
   &__label {
     margin: 2rem 0;
+    text-align: center;
+  }
+
+  &__button-container {
+    padding: 1rem;
   }
 
   &__button {
     align-items: center;
     appearance: none;
     background-color: $c-pink;
-    border-radius: 70px;
-    border: 0 $c-pink;
+    border-radius: 7rem;
+    border: 0.2rem solid transparent;
     box-shadow: none;
     box-sizing: border-box;
     color: $c-white;
@@ -116,12 +123,12 @@ defineProps<{
     font-size: 2rem;
     font-style: normal;
     font-weight: 700;
-    height: 55px;
+    height: 5.5rem;
     justify-content: center;
     margin: 0;
-    min-width: 150px;
+    min-width: 15rem;
     outline: 0;
-    padding: 14px 34px 16px;
+    padding: 1.4rem 3.4rem 1.6rem;
     position: unset;
     text-decoration: none;
     text-transform: uppercase;
