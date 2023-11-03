@@ -1,4 +1,11 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import useApi from '@/composables/use/api';
+import type { Products } from '@/models/products.model.ts';
+
+const { data: products, loading: isLoading } = useApi<Products>(
+  'http://localhost:3000/products'
+);
+</script>
 
 <template>
   <h1>Product Overview</h1>
