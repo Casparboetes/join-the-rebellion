@@ -21,7 +21,7 @@ const removeFromWishlist = (id: number) => {
 };
 
 const goToDetailPage = (id: number) => router.push(`/product-details/${id}`);
-const onClick = (event: Event, id: number) => {
+const updateWishlist = (event: Event, id: number) => {
   event.stopPropagation();
   wishlist.value.includes(id) ? removeFromWishlist(id) : addToWishlist(id);
 };
@@ -38,7 +38,7 @@ const onClick = (event: Event, id: number) => {
       <div class="products__item-container">
         <button
           class="products__item-button products__item-button--heart"
-          @click="onClick($event, product.id)"
+          @click="updateWishlist($event, product.id)"
         >
           <font-awesome-icon
             :class="{
