@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { Products } from '@/models/products.model.ts';
 import { ref } from 'vue';
+import router from '@/router';
 
 defineProps<{
   products: Products | null;
@@ -18,13 +19,27 @@ const removeFromWishlist = (id: number) => {
     wishlist.value.splice(index, 1);
   }
 };
+
+const goToDetailPage = (id: number) => router.push(`/product-details/${id}`);
+const onClick = (event: Event, id: number) => {
+  event.stopPropagation();
+  wishlist.value.includes(id) ? removeFromWishlist(id) : addToWishlist(id);
+};
 </script>
 
 <template>
   <div class="products">
-    <div v-for="product in products" :key="product.id" class="products__item">
+    <div
+      v-for="product in products"
+      :key="product.id"
+      class="products__item"
+      @click="goToDetailPage(product.id)"
+    >
       <div class="products__item-container">
-        <button class="products__item-button products__item-button--heart">
+        <button
+          class="products__item-button products__item-button--heart"
+          @click="onClick($event, product.id)"
+        >
           <font-awesome-icon
             :class="{
               fas: wishlist.includes(product.id),
@@ -33,11 +48,6 @@ const removeFromWishlist = (id: number) => {
             :icon="[wishlist.includes(product.id) ? 'fas' : 'far', 'heart']"
             class="products__item-icon"
             size="3x"
-            @click="
-              wishlist.includes(product.id)
-                ? removeFromWishlist(product.id)
-                : addToWishlist(product.id)
-            "
           />
         </button>
       </div>
@@ -66,6 +76,7 @@ const removeFromWishlist = (id: number) => {
     margin-bottom: 2rem;
     padding: 2rem;
     width: calc(90% - 2rem);
+    cursor: pointer;
 
     &-container {
       display: flex;
@@ -81,8 +92,9 @@ const removeFromWishlist = (id: number) => {
 
     &-button {
       all: unset;
-      margin: 0;
       cursor: pointer;
+      caret-color: $c-pink;
+      margin: 0;
       transform: translateY(0.2rem);
 
       &--heart {
