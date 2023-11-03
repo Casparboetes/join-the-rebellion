@@ -23,6 +23,25 @@ const removeFromWishlist = (id: number) => {
 <template>
   <div class="products">
     <div v-for="product in products" :key="product.id" class="products__item">
+      <div class="products__item-container">
+        <button class="products__item-button products__item-button--heart">
+          <font-awesome-icon
+            :class="{
+              fas: wishlist.includes(product.id),
+              far: !wishlist.includes(product.id)
+            }"
+            :icon="[wishlist.includes(product.id) ? 'fas' : 'far', 'heart']"
+            class="products__item-icon"
+            size="3x"
+            @click="
+              wishlist.includes(product.id)
+                ? removeFromWishlist(product.id)
+                : addToWishlist(product.id)
+            "
+          />
+        </button>
+      </div>
+
       <img
         :alt="product.name"
         :src="product.image"
@@ -32,18 +51,6 @@ const removeFromWishlist = (id: number) => {
         {{ product.brand }} - {{ product.name }}
       </h3>
       <p class="products__item-category">{{ product.category }}</p>
-      <i
-        :class="{
-          fas: wishlist.includes(product.id),
-          far: !wishlist.includes(product.id)
-        }"
-        class="fa-heart"
-        @click="
-          wishlist.includes(product.id)
-            ? removeFromWishlist(product.id)
-            : addToWishlist(product.id)
-        "
-      ></i>
     </div>
   </div>
 </template>
@@ -59,6 +66,61 @@ const removeFromWishlist = (id: number) => {
     margin-bottom: 2rem;
     padding: 2rem;
     width: calc(90% - 2rem);
+
+    &-container {
+      display: flex;
+      justify-content: center;
+      text-align: center;
+      height: 3.5rem;
+      width: 3.5rem;
+      background-color: $c-white;
+      border-radius: 50%;
+      position: absolute;
+      transform: translateX(calc(10%)) translateY(calc(10%));
+    }
+
+    &-button {
+      all: unset;
+      margin: 0;
+      cursor: pointer;
+      z-index: 15;
+      transform: translateY(0.2rem);
+
+      &--heart {
+        transition: transform 0.1s ease-in-out;
+
+        &:hover {
+          color: $c-pink;
+        }
+
+        &:focus-visible {
+          outline: -webkit-focus-ring-color auto 1px;
+        }
+      }
+    }
+
+    &-icon {
+      color: $c-pink--dark;
+
+      transition: color 0.3s ease;
+
+      &.fas {
+        color: $c-pink;
+        animation: bounce 0.3s ease;
+      }
+
+      @keyframes bounce {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.2);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+    }
 
     &-image {
       min-height: 24.6rem;
@@ -77,28 +139,6 @@ const removeFromWishlist = (id: number) => {
       font-size: 1.4rem;
       margin: 0.5rem 0;
     }
-
-    .fa-heart {
-      color: #ffffff;
-      transition: color 0.3s ease;
-
-      &.fas {
-        color: #ec0e6e;
-        animation: bounce 0.3s ease;
-      }
-    }
-  }
-}
-
-@keyframes bounce {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.2);
-  }
-  100% {
-    transform: scale(1);
   }
 }
 </style>
