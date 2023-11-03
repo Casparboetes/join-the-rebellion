@@ -2,7 +2,7 @@
 import type { Products } from '@/models/products.model.ts';
 
 defineProps<{
-  products: Products;
+  products: Products | null;
 }>();
 </script>
 
@@ -31,9 +31,10 @@ defineProps<{
     box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
     margin-bottom: 2rem;
     padding: 2rem;
-    width: calc(75% - 2rem);
+    width: calc(90% - 2rem);
 
     &-image {
+      min-height: 24.6rem;
       height: auto;
       width: 100%;
     }

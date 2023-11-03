@@ -15,8 +15,8 @@ const handleToggle = (toggles: boolean) => (toggle.value = toggles);
 <template>
   <div class="app">
     <AppHeader :nav-items="navItems" @emit-toggle="handleToggle" />
+    <AppDrawer :is-open="toggle" :nav-items="navItems" />
     <div class="app__main">
-      <AppDrawer :is-open="toggle" :nav-items="navItems" />
       <router-view></router-view>
     </div>
   </div>
