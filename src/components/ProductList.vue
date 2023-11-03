@@ -83,7 +83,6 @@ const removeFromWishlist = (id: number) => {
       all: unset;
       margin: 0;
       cursor: pointer;
-      z-index: 15;
       transform: translateY(0.2rem);
 
       &--heart {
