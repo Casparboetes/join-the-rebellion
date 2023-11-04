@@ -21,6 +21,11 @@ const { data: productDetails } = useApi<Product>(
     <h1 class="product-details__name">
       <span class="product-details__highlight">{{ productDetails.name }}</span>
     </h1>
+    <p class="product-details__copy">
+      Feugiat scelerisque varius morbi enim nunc. Porta nibh venenatis cras sed
+      felis eget velit. Leo integer malesuada nunc vel risus commodo viverra
+      maecenas accumsan. Porta lorem mollis aliquam ut porttitor.
+    </p>
 
     {{ productDetails.brand }}
     {{ productDetails.name }}
