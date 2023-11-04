@@ -21,6 +21,7 @@ const { data: products } = useApi<Products>('http://localhost:3000/products');
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding-bottom: 10rem;
 
   &__page-title {
     text-transform: uppercase;

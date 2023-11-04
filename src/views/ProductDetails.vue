@@ -101,6 +101,7 @@ const updateWishlist = (event: Event, id: number) => {
   height: 100%;
   display: flex;
   flex-direction: column;
+  padding-bottom: 20rem;
 
   &__page-title {
     //font-family: 'Darker Grotesque', serif;
