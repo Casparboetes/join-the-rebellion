@@ -202,7 +202,7 @@ const updateWishlist = (event: Event, id: number) => {
   }
 
   &__button-icon {
-    transform: translateY(0.2rem);
+    transform: translateY(0.1rem);
   }
 
   &__button-label {
