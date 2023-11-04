@@ -12,16 +12,23 @@ const { data: productDetails } = useApi<Product>(
 );
 
 const wishlist = ref<number[]>([]);
-
+const adding = ref<boolean>(false);
+const removing = ref<boolean>(false);
 const addToWishlist = (id: number) => {
+  adding.value = true;
+
   wishlist.value.push(id);
+  setTimeout(() => (adding.value = false), 500);
 };
 
 const removeFromWishlist = (id: number) => {
   const index = wishlist.value.indexOf(id);
   if (index !== -1) {
+    removing.value = true;
+
     wishlist.value.splice(index, 1);
   }
+  setTimeout(() => (removing.value = false), 500);
 };
 
 const updateWishlist = (event: Event, id: number) => {
@@ -65,15 +72,22 @@ const updateWishlist = (event: Event, id: number) => {
     <div class="product-details__button-container">
       <button
         class="product-details__button"
-        @click="updateWishlist($event, product.id)"
+        @click="updateWishlist($event, productDetails.id)"
       >
-        <font-awesome-icon
-          :icon="['fas', 'plus']"
-          class="product-details__plus-icon"
-        />
-        <span class="product-details__button-label"
-          >{{ productDetails.category }} wish list</span
-        >
+        <span v-if="adding">Adding...</span>
+        <span v-else-if="removing">Removing...</span>
+        <span v-else>
+          <font-awesome-icon
+            :icon="[
+              'fas',
+              wishlist.includes(productDetails.id) ? 'xmark' : 'plus'
+            ]"
+            class="product-details__button-icon"
+          />
+          <span class="product-details__button-label"
+            >{{ productDetails.category }} list</span
+          >
+        </span>
       </button>
     </div>
   </div>
@@ -160,7 +174,7 @@ const updateWishlist = (event: Event, id: number) => {
     cursor: pointer;
     display: inline-flex;
     font-family: 'Darker Grotesque', serif;
-    font-size: 2rem;
+    font-size: 1.8rem;
     font-style: normal;
     font-weight: 700;
     height: 5.5rem;
@@ -187,8 +201,8 @@ const updateWishlist = (event: Event, id: number) => {
     }
   }
 
-  &__plus-icon {
-    transform: translateY(0.1rem);
+  &__button-icon {
+    transform: translateY(0.2rem);
   }
 
   &__button-label {
@@ -199,11 +213,19 @@ const updateWishlist = (event: Event, id: number) => {
     &__page-title {
       font-size: 5rem;
     }
+
+    &__button {
+      // todo...
+    }
   }
 
   @include screen($screen-simple) {
     &__page-title {
       font-size: 7rem;
+    }
+
+    &__button {
+      // todo...
     }
   }
 
@@ -211,6 +233,25 @@ const updateWishlist = (event: Event, id: number) => {
     &__page-title {
       font-size: 8rem;
       margin: 0 0 2rem 0;
+    }
+    &__image {
+      height: auto;
+      width: calc(50% - 2rem);
+    }
+
+    &__button {
+      // todo...
+    }
+  }
+
+  @include screen($screen-normal) {
+    &__page-title {
+      font-size: 8rem;
+      margin: 0 0 2rem 0;
+    }
+
+    &__button {
+      // todo...
     }
   }
 }
