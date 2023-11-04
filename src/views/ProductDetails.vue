@@ -226,11 +226,7 @@ const updateWishlist = (event: Event, id: number) => {
 
     &__copy,
     &__image {
-      width: calc(70% - 2rem);
-    }
-
-    &__button {
-      // todo...
+      width: 65rem;
     }
   }
 
@@ -238,15 +234,6 @@ const updateWishlist = (event: Event, id: number) => {
     &__page-title {
       font-size: 8rem;
       margin: 0 0 2rem 0;
-    }
-
-    &__copy,
-    &__image {
-      width: calc(50% - 2rem);
-    }
-
-    &__button {
-      // todo...
     }
   }
 
