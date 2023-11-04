@@ -2,6 +2,7 @@
 import { useRoute } from 'vue-router';
 import useApi from '@/composables/use/api.ts';
 import type { Product } from '@/models/products.model.ts';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 const route = useRoute();
 const id = parseInt(<string>route.params.id);
@@ -27,11 +28,32 @@ const { data: productDetails } = useApi<Product>(
       maecenas accumsan. Porta lorem mollis aliquam ut porttitor.
     </p>
 
-    {{ productDetails.brand }}
-    {{ productDetails.name }}
-    {{ productDetails.category }}
-    {{ productDetails.image }}
-    {{ productDetails.specifications }}
+    <ul class="product-details__specifications-list">
+      <li
+        v-for="(value, key, index) in productDetails.specifications"
+        :key="index"
+        class="product-details__specifications-item"
+      >
+        <div class="product-details__specifications-value">
+          {{ value }}
+        </div>
+        <div class="product-details__specifications-key">
+          {{ key }}
+        </div>
+      </li>
+    </ul>
+
+    <div class="product-details__button-container">
+      <button class="product-details__button">
+        <font-awesome-icon
+          :icon="['fas', 'plus']"
+          class="product-details__plus-icon"
+        />
+        <span class="product-details__button-label"
+          >{{ productDetails.category }} wish list</span
+        >
+      </button>
+    </div>
   </div>
 </template>
 
@@ -39,7 +61,8 @@ const { data: productDetails } = useApi<Product>(
 .product-details {
   align-items: center;
   background-color: $c-black;
-  height: 100vh;
+  color: $c-white;
+  height: 100%;
   display: flex;
   flex-direction: column;
 
@@ -64,7 +87,90 @@ const { data: productDetails } = useApi<Product>(
   }
 
   &__highlight {
+    color: $c-pink;
+  }
+
+  &__copy {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 400;
+    margin: 2rem;
+  }
+
+  &__specifications-list {
+    @include list-reset;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    margin: 3rem 2rem;
+  }
+
+  &__specifications-item {
+    margin: 1rem;
+  }
+
+  &__specifications-value {
+    background: -webkit-linear-gradient(#eee, #333);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 6rem;
+  }
+
+  &__specifications-key {
+    font-size: 2rem;
+    text-transform: uppercase;
+  }
+
+  &__button-container {
+    margin: 6rem 2rem;
+  }
+
+  &__button {
+    align-items: center;
+    appearance: none;
+    background-color: $c-pink;
+    border-radius: 7rem;
+    border: 0.2rem solid transparent;
+    box-shadow: none;
+    box-sizing: border-box;
     color: $c-white;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: 'Darker Grotesque', serif;
+    font-size: 2rem;
+    font-style: normal;
+    font-weight: 700;
+    height: 5.5rem;
+    justify-content: center;
+    margin: 0;
+    min-width: 15rem;
+    outline: 0;
+    padding: 1.4rem 3.4rem 1.6rem;
+    position: unset;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition:
+      background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+      box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+      border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+      color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    user-select: none;
+    vertical-align: middle;
+
+    &:hover {
+      border: 0.2rem solid $c-pink;
+      color: $c-pink;
+      background-color: $c-black;
+    }
+  }
+
+  &__plus-icon {
+    transform: translateY(0.1rem);
+  }
+
+  &__button-label {
+    margin-left: 0.5rem;
   }
 
   @include screen($screen-minimal) {
