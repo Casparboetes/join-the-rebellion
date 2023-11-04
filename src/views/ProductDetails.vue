@@ -224,9 +224,6 @@ const updateWishlist = (event: Event, id: number) => {
     &__image {
       width: 65rem;
     }
-
-    &__copy {
-    }
   }
 
   @include screen($screen-specific) {
