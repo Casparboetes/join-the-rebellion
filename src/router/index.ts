@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
-import ProductOverview from '@/views/ProductOverview.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -10,7 +9,10 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/product-overview',
     name: 'product-overview',
-    component: ProductOverview
+    components: {
+      default: () => import('@/views/ProductOverview.vue'),
+      RightSidebar: () => import('@/components/SideBar.vue')
+    }
   },
   {
     path: '/product-details/:id',
