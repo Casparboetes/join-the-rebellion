@@ -12,10 +12,14 @@ const { data: productDetails } = useApi<Product>(
 
 <template>
   <div v-if="productDetails" class="product-details">
-    <h1 class="product-details__page-title">
-      <span class="product-details__highlight">
-        {{ productDetails.brand }}</span
-      >
+    <h1 class="product-details__page-title">{{ productDetails.brand }}</h1>
+    <img
+      :alt="productDetails.name"
+      :src="productDetails.image"
+      class="product-details__image"
+    />
+    <h1 class="product-details__name">
+      <span class="product-details__highlight">{{ productDetails.name }}</span>
     </h1>
 
     {{ productDetails.brand }}
@@ -38,6 +42,19 @@ const { data: productDetails } = useApi<Product>(
     //font-family: 'Darker Grotesque', serif;
     font-size: 4rem;
     font-weight: 600;
+    margin: 2rem 0;
+  }
+
+  &__image {
+    min-height: 24.6rem;
+    height: auto;
+    width: calc(90% - 2rem);
+  }
+
+  &__name {
+    text-align: center;
+    font-size: 3rem;
+    font-weight: 400;
     margin: 2rem 0;
   }
 
