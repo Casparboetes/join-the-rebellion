@@ -3,12 +3,31 @@ import { useRoute } from 'vue-router';
 import useApi from '@/composables/use/api.ts';
 import type { Product } from '@/models/products.model.ts';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { ref } from 'vue';
 
 const route = useRoute();
 const id = parseInt(<string>route.params.id);
 const { data: productDetails } = useApi<Product>(
   `http://localhost:3000/products/${id}`
 );
+
+const wishlist = ref<number[]>([]);
+
+const addToWishlist = (id: number) => {
+  wishlist.value.push(id);
+};
+
+const removeFromWishlist = (id: number) => {
+  const index = wishlist.value.indexOf(id);
+  if (index !== -1) {
+    wishlist.value.splice(index, 1);
+  }
+};
+
+const updateWishlist = (event: Event, id: number) => {
+  event.stopPropagation();
+  wishlist.value.includes(id) ? removeFromWishlist(id) : addToWishlist(id);
+};
 </script>
 
 <template>
@@ -44,7 +63,10 @@ const { data: productDetails } = useApi<Product>(
     </ul>
 
     <div class="product-details__button-container">
-      <button class="product-details__button">
+      <button
+        class="product-details__button"
+        @click="updateWishlist($event, product.id)"
+      >
         <font-awesome-icon
           :icon="['fas', 'plus']"
           class="product-details__plus-icon"
