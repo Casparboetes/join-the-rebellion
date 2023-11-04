@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import type { NavItem } from '@/models/nav-item.model.ts';
 import AppHeader from '@/components/AppHeader.vue';
 import AppDrawer from '@/components/AppDrawer.vue';
+import AppFooter from '@/components/AppFooter.vue';
 
 const navItems = ref<NavItem>([
   { name: 'Product Overview', path: '/product-overview', id: 1 },
@@ -19,6 +20,7 @@ const handleToggle = (toggles: boolean) => (toggle.value = toggles);
     <div class="app__main">
       <router-view></router-view>
     </div>
+    <AppFooter />
   </div>
 </template>
 
