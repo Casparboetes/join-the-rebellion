@@ -49,9 +49,10 @@ defineProps<{
   height: 0;
   top: $h-header;
   overflow: hidden;
-  position: absolute;
+  position: fixed;
   transition: all 0.4s ease-in-out;
   width: 100%;
+  z-index: 10;
 
   &--open {
     height: calc(100vh - $h-header);
@@ -139,7 +140,6 @@ defineProps<{
       color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
     user-select: none;
     vertical-align: middle;
-    z-index: unset;
 
     &:hover {
       border: 0.2rem solid $c-pink;

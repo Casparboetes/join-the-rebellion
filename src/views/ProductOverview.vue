@@ -1,11 +1,55 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import useApi from '@/composables/use/api';
+import type { Products } from '@/models/products.model.ts';
+import ProductList from '@/components/ProductList.vue';
+
+const { data: products } = useApi<Products>('http://localhost:3000/products');
+</script>
 
 <template>
-  <h1>Product Overview</h1>
-  <p>
-    Present a list of all digital products with a search bar to quickly find
-    favorites!
-  </p>
+  <div class="product-overview">
+    <h1 class="product-overview__page-title">
+      Buying is<span class="product-overview__highlight"> believing.</span>
+    </h1>
+    <ProductList :products="products" />
+  </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.product-overview {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  &__page-title {
+    text-transform: uppercase;
+    font-family: 'Darker Grotesque', serif;
+    font-size: 3.4rem;
+    margin: 2rem 0;
+  }
+
+  &__highlight {
+    color: $c-pink;
+  }
+
+  @include screen($screen-minimal) {
+    &__page-title {
+      font-size: 5rem;
+    }
+  }
+
+  @include screen($screen-simple) {
+    &__page-title {
+      font-size: 7rem;
+    }
+  }
+
+  @include screen($screen-specific) {
+    &__page-title {
+      font-size: 8rem;
+      margin: 0 0 2rem 0;
+    }
+  }
+}
+</style>
