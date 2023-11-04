@@ -10,7 +10,7 @@
     "host": "vite --host",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write src/",
-    "db": "json-server --watch db.json"
+    "db": "json-server --watch db.json --id id --routes routes.json"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
