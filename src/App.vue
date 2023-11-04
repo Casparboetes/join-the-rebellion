@@ -30,7 +30,7 @@ const handleToggle = (toggles: boolean) => (toggle.value = toggles);
 
   @include screen($screen-specific) {
     &__main {
-      margin-top: $h-header-large;
+      padding-top: $h-header-large;
     }
   }
 }

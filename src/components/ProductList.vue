@@ -134,6 +134,7 @@ const updateWishlist = (event: Event, id: number) => {
     }
 
     &-image {
+      background-color: #666;
       min-height: 24.6rem;
       height: auto;
       width: 100%;
@@ -149,6 +150,24 @@ const updateWishlist = (event: Event, id: number) => {
       color: #666;
       font-size: 1.4rem;
       margin: 0.5rem 0;
+    }
+  }
+
+  @include screen($screen-simple) {
+    &__item {
+      margin-bottom: 4rem;
+      width: calc(45% - 4rem);
+
+      &:nth-child(odd) {
+        margin-right: 4rem;
+      }
+    }
+  }
+
+  @include screen($screen-normal) {
+    &__item {
+      // 2 column and wishlist appears
+      //width: calc(33% - 4rem);
     }
   }
 }

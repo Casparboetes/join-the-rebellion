@@ -32,5 +32,24 @@ const { data: products } = useApi<Products>('http://localhost:3000/products');
   &__highlight {
     color: $c-pink;
   }
+
+  @include screen($screen-minimal) {
+    &__page-title {
+      font-size: 5rem;
+    }
+  }
+
+  @include screen($screen-simple) {
+    &__page-title {
+      font-size: 7rem;
+    }
+  }
+
+  @include screen($screen-specific) {
+    &__page-title {
+      font-size: 8rem;
+      margin: 0 0 2rem 0;
+    }
+  }
 }
 </style>
