@@ -35,14 +35,14 @@ const { data: productDetails } = useApi<Product>(
   flex-direction: column;
 
   &__page-title {
-    text-transform: uppercase;
-    font-family: 'Darker Grotesque', serif;
-    font-size: 3.4rem;
+    //font-family: 'Darker Grotesque', serif;
+    font-size: 4rem;
+    font-weight: 600;
     margin: 2rem 0;
   }
 
   &__highlight {
-    color: $c-pink;
+    color: $c-white;
   }
 
   @include screen($screen-minimal) {
