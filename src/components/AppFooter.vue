@@ -1,33 +1,73 @@
 <script lang="ts" setup></script>
-
 <template>
-  <div class="footer">
-    <section class="footer__container">
+  <section class="footer">
+    <div class="footer__container">
       <div class="footer__quote">
-        "“Are you ready for tech with a bite? Our products are designed to
-        revolutionize the way you work and play. With cutting-edge technology
-        and a commitment to quality, we’re the perfect partner for anyone who
-        wants to stay ahead of the curve. Join the rebellion today and
-        experience the power of tech with a bite!”" <span>ChatGP 4</span>
+        “Join the Rebellion today and experience the power of tech with a bite!”
+        <br /><span class="footer__quote-by-who"> - ChatGPT 4</span>
       </div>
-      <img class="footer__company-logo" src="@/assets/rebellion.png" />
-    </section>
-  </div>
+
+      <div class="footer__logo-container">
+        <img
+          alt="Rebellion Logo"
+          class="footer__company-logo"
+          src="@/assets/rebellion.png"
+        />
+      </div>
+    </div>
+  </section>
 </template>
 
 <style lang="scss" scoped>
 .footer {
-  background-color: $c-white;
+  align-items: center;
+  background-color: $c-rebel-grey;
+  min-height: fit-content;
 
   &__container {
+    @include container($w-header);
+
     display: flex;
-    justify-content: flex-end;
+    flex-direction: column;
+    justify-content: center;
   }
 
   &__quote {
+    font-family: 'Darker Grotesque', serif;
+    font-size: 3rem;
+    margin: 4rem 2rem;
+  }
+
+  &__quote-by-who {
+    float: right;
+  }
+
+  &__logo-container {
+    display: flex;
+    float: right;
+    justify-content: flex-end;
+    margin: 2rem;
   }
 
   &__company-logo {
+    height: 10rem;
+    width: 10rem;
+  }
+
+  @include screen($screen-simple) {
+    &__container {
+      flex-direction: row;
+      padding-top: 4rem;
+    }
+
+    &__logo-container {
+      margin: 4rem 2rem;
+    }
+
+    &__company-logo {
+      height: 12.5rem;
+      width: 12.5rem;
+    }
   }
 }
 </style>
