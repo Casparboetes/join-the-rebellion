@@ -234,6 +234,7 @@ const updateWishlist = (event: Event, id: number) => {
       font-size: 8rem;
       margin: 0 0 2rem 0;
     }
+
     &__image {
       height: auto;
       width: calc(50% - 2rem);
