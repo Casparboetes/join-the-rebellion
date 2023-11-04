@@ -11,9 +11,13 @@ const { data: productDetails } = useApi<Product>(
 </script>
 
 <template>
-  <h1>Product Details</h1>
+  <div v-if="productDetails" class="product-details">
+    <h1 class="product-details__page-title">
+      <span class="product-details__highlight">
+        {{ productDetails.brand }}</span
+      >
+    </h1>
 
-  <div v-if="productDetails">
     {{ productDetails.brand }}
     {{ productDetails.name }}
     {{ productDetails.category }}
@@ -22,4 +26,42 @@ const { data: productDetails } = useApi<Product>(
   </div>
 </template>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.product-details {
+  align-items: center;
+  background-color: $c-black;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  &__page-title {
+    text-transform: uppercase;
+    font-family: 'Darker Grotesque', serif;
+    font-size: 3.4rem;
+    margin: 2rem 0;
+  }
+
+  &__highlight {
+    color: $c-pink;
+  }
+
+  @include screen($screen-minimal) {
+    &__page-title {
+      font-size: 5rem;
+    }
+  }
+
+  @include screen($screen-simple) {
+    &__page-title {
+      font-size: 7rem;
+    }
+  }
+
+  @include screen($screen-specific) {
+    &__page-title {
+      font-size: 8rem;
+      margin: 0 0 2rem 0;
+    }
+  }
+}
+</style>
