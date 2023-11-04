@@ -167,7 +167,7 @@ const updateWishlist = (event: Event, id: number) => {
   @include screen($screen-normal) {
     &__item {
       // 2 column and wishlist appears
-      //width: calc(33% - 4rem);
+      width: calc(35% - 4rem);
     }
   }
 }
