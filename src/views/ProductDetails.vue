@@ -213,10 +213,6 @@ const updateWishlist = (event: Event, id: number) => {
     &__page-title {
       font-size: 5rem;
     }
-
-    &__button {
-      // todo...
-    }
   }
 
   @include screen($screen-simple) {
@@ -227,6 +223,9 @@ const updateWishlist = (event: Event, id: number) => {
     &__copy,
     &__image {
       width: 65rem;
+    }
+
+    &__copy {
     }
   }
 
@@ -241,10 +240,6 @@ const updateWishlist = (event: Event, id: number) => {
     &__page-title {
       font-size: 8rem;
       margin: 0 0 2rem 0;
-    }
-
-    &__button {
-      // todo...
     }
   }
 }
