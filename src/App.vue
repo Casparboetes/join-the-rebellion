@@ -19,7 +19,7 @@ const handleToggle = (toggles: boolean) => (toggle.value = toggles);
     <AppDrawer :is-open="toggle" :nav-items="navItems" />
     <div class="app__main">
       <router-view></router-view>
-      <router-view class="app__side-bar" name="RightSidebar"></router-view>
+      <!--      <router-view class="app__side-bar" name="RightSidebar"></router-view>-->
     </div>
     <AppFooter />
   </div>

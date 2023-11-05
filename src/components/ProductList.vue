@@ -70,13 +70,13 @@ const updateWishlist = (event: Event, id: number) => {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  gap: 4rem;
 
   &__item {
     box-shadow: 0 0 1rem rgba(0, 0, 0, 0.15);
-    margin-bottom: 2rem;
+    cursor: pointer;
     padding: 2rem;
     width: calc(90% - 2rem);
-    cursor: pointer;
 
     &-container {
       display: flex;
@@ -155,19 +155,19 @@ const updateWishlist = (event: Event, id: number) => {
 
   @include screen($screen-simple) {
     &__item {
-      margin-bottom: 4rem;
       width: calc(45% - 4rem);
-
-      &:nth-child(odd) {
-        margin-right: 4rem;
-      }
     }
   }
 
   @include screen($screen-normal) {
     &__item {
-      // 2 column and wishlist appears
       width: calc(35% - 4rem);
+    }
+  }
+
+  @include screen($screen-xl) {
+    &__item {
+      width: calc(29% - 5rem);
     }
   }
 }
