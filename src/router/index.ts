@@ -10,8 +10,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/product-overview',
     name: 'product-overview',
     components: {
-      default: () => import('@/views/ProductOverview.vue'),
-      RightSidebar: () => import('@/components/SideBar.vue')
+      default: () => import('@/views/ProductOverview.vue')
     }
   },
   {
