@@ -52,5 +52,9 @@ const { data: products } = useApi<Products>('http://localhost:3000/products');
       margin: 0 0 2rem 0;
     }
   }
+
+  @include screen($screen-normal) {
+    @include container($w-header);
+  }
 }
 </style>
