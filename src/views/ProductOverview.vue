@@ -30,7 +30,7 @@ const fetchData = async () => {
       v-if="products"
       :list="list"
       :products="products"
-      @clicked-on-fav="fetchData"
+      @emitReFetch="fetchData"
     />
   </div>
 </template>
