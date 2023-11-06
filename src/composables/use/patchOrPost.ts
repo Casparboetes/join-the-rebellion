@@ -22,8 +22,7 @@ export default async function useAsyncPatchOrPost<T>(
       body: JSON.stringify(body)
     });
     if (response.ok) {
-      const responseData = await response.json();
-      data.value = responseData;
+      data.value = await response.json();
     } else {
       error.value = response.status;
 
