@@ -10,7 +10,7 @@ const searchQuery = ref('');
 const handleSearchInput = async () => {
   if (!searchQuery.value.length) return;
   console.log(searchQuery.value);
-  emit('emitSearchQuery', searchQuery.value);=
+  emit('emitSearchQuery', searchQuery.value);
 };
 </script>
 
