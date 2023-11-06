@@ -41,8 +41,6 @@ const fetchData = async (
 </script>
 
 <template>
-  <h2>My Wishlist</h2>
-
   <ProductList v-if="products" :products="products" />
 </template>
 
