@@ -10,12 +10,7 @@ const searchQuery = ref('');
 const handleSearchInput = async () => {
   if (!searchQuery.value.length) return;
   console.log(searchQuery.value);
-  emit('emitSearchQuery', searchQuery.value);
-
-  //   search something
-  //   query the api
-  //   send the results to product overview
-  //   show result via product list
+  emit('emitSearchQuery', searchQuery.value);=
 };
 </script>
 
@@ -126,7 +121,6 @@ body {
 #search svg {
   grid-area: search;
   overflow: visible;
-  //color: hsl(215, 100%, 50%);
   color: $c-pink;
   fill: none;
   stroke: currentColor;
