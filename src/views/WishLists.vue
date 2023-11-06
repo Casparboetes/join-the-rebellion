@@ -4,42 +4,11 @@ import type { WishLists } from '@/models/wish-lists.model.ts';
 import WishList from '@/components/WishList.vue';
 import WishListEmpty from '@/components/WishListEmpty.vue';
 import router from '@/router';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 const { data: wishLists } = useApi<WishLists>(
   'http://localhost:3000/wishlists'
 );
-// const products = ref<any>(null);
-// const prodId = ref<number[]>();
-//
-// watch(prodId, async (newProdId, oldProdID) => {
-//   console.log('newProdId', newProdId);
-//   console.log('oldProdID', oldProdID);
-//   if (newProdId) {
-//     await fetchData(newProdId);
-//   }
-// });
-//
-// const fetchData = async (prodId: number[]) => {
-//   console.log('fetchData uit onMounted');
-//   console.log('fetchData uit onMounted', prodId);
-//
-//   const queryParams: string[] = prodId.map((num) => `id=${num}`);
-//   const queryString: string = queryParams.join('&');
-//   const finalQueryString: string = `?${queryString}`;
-//   console.log(finalQueryString);
-//   try {
-//     const response = await fetch(
-//       `http://localhost:3000/products${finalQueryString}`
-//     );
-//     const result = await response.json();
-//     console.log('hoi', result);
-//     products.value = result;
-//     // isLoading.value = false;
-//   } catch (error) {
-//     console.error('Error fetching data:', error);
-//     // isLoading.value = false;
-//   }
-// };
 </script>
 
 <template>
@@ -47,7 +16,17 @@ const { data: wishLists } = useApi<WishLists>(
     <h1 class="wish-lists__page-title">
       The Products You <span class="wish-lists__highlight"> Love.</span>
     </h1>
-    <hr />
+
+    <hr class="wish-lists__horizontal-line" />
+
+    <button
+      v-if="router.currentRoute.value.fullPath !== '/wish-lists'"
+      class="wish-lists__button-back"
+      @click="router.back()"
+    >
+      <font-awesome-icon :icon="['fas', 'arrow-left-long']" size="3x" />
+    </button>
+
     <WishListEmpty v-if="!wishLists" />
 
     <WishList
@@ -55,12 +34,6 @@ const { data: wishLists } = useApi<WishLists>(
       :wish-lists="wishLists"
     />
 
-    <button
-      v-if="router.currentRoute.value.fullPath !== '/wish-lists'"
-      @click="router.back()"
-    >
-      BACK
-    </button>
     <suspense>
       <router-view></router-view>
     </suspense>
@@ -82,8 +55,31 @@ const { data: wishLists } = useApi<WishLists>(
     margin: 2rem 0;
   }
 
+  &__horizontal-line {
+    border-top: 2px solid $c-black;
+    margin-bottom: 4rem;
+    width: 70%;
+  }
+
   &__highlight {
     color: $c-pink;
+  }
+
+  &__button-back {
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    float: left;
+    font: inherit;
+    margin: 2rem 80% 4rem auto;
+    outline: inherit;
+    padding: 0;
+
+    &:hover {
+      color: $c-pink;
+      transform: scale(1.1);
+    }
   }
 
   @include screen($screen-minimal) {
