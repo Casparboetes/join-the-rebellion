@@ -24,6 +24,10 @@ const closeMenu = () => {
   }
 };
 
+defineExpose({
+  closeMenu
+});
+
 onMounted(() => {
   window.addEventListener('resize', handleResize);
 });

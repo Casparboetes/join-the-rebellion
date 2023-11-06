@@ -9,14 +9,27 @@ const navItems = ref<NavItem>([
   { name: 'Product Overview', path: '/product-overview', id: 1 },
   { name: 'Wish Lists', path: '/wish-lists', id: 2 }
 ]);
+const exposeHeader = ref();
 const toggle = ref(false);
+
+const closeHeaderMenu = () => {
+  exposeHeader?.value?.closeMenu();
+};
 const handleToggle = (toggles: boolean) => (toggle.value = toggles);
 </script>
 
 <template>
   <div class="app">
-    <AppHeader :nav-items="navItems" @emit-toggle="handleToggle" />
-    <AppDrawer :is-open="toggle" :nav-items="navItems" />
+    <AppHeader
+      ref="exposeHeader"
+      :nav-items="navItems"
+      @emit-toggle="handleToggle"
+    />
+    <AppDrawer
+      :is-open="toggle"
+      :nav-items="navItems"
+      @emit-close-menu="closeHeaderMenu"
+    />
     <div class="app__main">
       <suspense>
         <router-view v-slot="{ Component }">
