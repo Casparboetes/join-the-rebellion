@@ -1,15 +1,15 @@
 <script lang="ts" setup>
-import useApi from '@/composables/use/api';
-import type { Products } from '@/models/products.model.ts';
-
 import ProductList from '@/components/ProductList.vue';
+import type { Products } from '@/models/products.model.ts';
+import useApi from '@/composables/use/api';
 import { ref } from 'vue';
+import SearchBar from '@/components/SearchBar.vue';
 
 const { data: products } = useApi<Products>('http://localhost:3000/products');
 
 const list = ref(null);
+const openSearch = ref(false);
 
-// GET request using fetch with async/await
 const response = await fetch('http://localhost:3000/wishlists');
 const data = await response.json();
 list.value = data;
@@ -18,10 +18,25 @@ const fetchData = async () => {
   const response = await fetch('http://localhost:3000/wishlists');
   list.value = await response.json();
 };
+
+const searchForEnlightenment = async (query: string) => {
+  const response = await fetch(`http://localhost:3000/products?q=${query}`);
+  products.value = await response.json();
+};
+
+defineExpose({
+  searchForEnlightenment,
+  openSearch
+});
 </script>
 
 <template>
   <div class="product-overview">
+    <SearchBar
+      v-if="openSearch"
+      class="product-overview__search-bar"
+      @emit-search-query="searchForEnlightenment"
+    />
     <h1 class="product-overview__page-title">
       Buying is<span class="product-overview__highlight"> believing.</span>
     </h1>
@@ -54,6 +69,10 @@ const fetchData = async () => {
     color: $c-pink;
   }
 
+  &__search-bar {
+    transform: scale(0.7);
+  }
+
   @include screen($screen-minimal) {
     &__page-title {
       font-size: 5rem;
@@ -75,6 +94,9 @@ const fetchData = async () => {
 
   @include screen($screen-normal) {
     @include container($w-header);
+    &__search-bar {
+      transform: scale(1);
+    }
   }
 }
 </style>
