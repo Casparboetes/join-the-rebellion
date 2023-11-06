@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import useApi from '@/composables/use/api';
-import { WishLists } from '@/models/wish-lists.model.ts';
+import type { WishLists } from '@/models/wish-lists.model.ts';
 import WishList from '@/components/WishList.vue';
 import WishListEmpty from '@/components/WishListEmpty.vue';
 import router from '@/router';
@@ -61,7 +61,9 @@ const { data: wishLists } = useApi<WishLists>(
     >
       BACK
     </button>
-    <router-view></router-view>
+    <suspense>
+      <router-view></router-view>
+    </suspense>
   </div>
 </template>
 
