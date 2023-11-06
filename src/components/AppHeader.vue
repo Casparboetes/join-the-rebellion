@@ -24,6 +24,12 @@ const closeMenu = () => {
   }
 };
 
+const onClick = () => {
+  // emit to app > then toggles search component ?
+  // or perhaps opens in product overview
+  console.log('Opens search bar');
+};
+
 defineExpose({
   closeMenu
 });
@@ -67,6 +73,13 @@ onUnmounted(() => {
           </li>
         </ul>
       </nav>
+
+      <button
+        class="header__button header__button--search"
+        v-on:click="onClick()"
+      >
+        <font-awesome-icon :icon="['fa', 'search']" size="2x" />
+      </button>
 
       <button
         :class="{ 'header__hamburger--menu-open': isOpen }"
@@ -167,6 +180,7 @@ onUnmounted(() => {
     color: $c-pink--dark;
 
     &--search {
+      margin: 0 2rem;
       transition: transform 0.1s ease-in-out;
 
       &:hover {
@@ -267,6 +281,12 @@ onUnmounted(() => {
 
     &__nav {
       display: block;
+    }
+
+    &__button {
+      &--search {
+        margin-right: 1.7rem;
+      }
     }
 
     &__hamburger {
