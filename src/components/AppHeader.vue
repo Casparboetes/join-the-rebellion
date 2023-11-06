@@ -181,14 +181,15 @@ onUnmounted(() => {
 
     &--search {
       margin: 0 2rem;
-      transition: transform 0.1s ease-in-out;
+      transition: transform 0.275s ease-in-out;
 
       &:hover {
         color: $c-pink;
+        transform: scale(1.1);
       }
 
       &:active {
-        transform: scale(1.2);
+        transform: scale(1.3);
       }
 
       &:focus-visible {
