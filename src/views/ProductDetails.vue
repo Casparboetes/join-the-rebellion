@@ -105,8 +105,8 @@ const updateWishlist = (event: Event, id: number) => {
   width: 100%;
 
   &__page-title {
-    //font-family: 'Darker Grotesque', serif;
-    font-size: 4rem;
+    font-family: 'Darker Grotesque', serif;
+    font-size: 5rem;
     font-weight: 600;
     margin: 2rem 0;
   }
