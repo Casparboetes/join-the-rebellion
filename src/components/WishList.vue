@@ -6,7 +6,7 @@ defineProps<{
   wishLists: WishLists | null;
 }>();
 
-const viewList = (id: WishList['id']) => console.log('Hi', id);
+const viewWishlist = (id: number) => router.push(`/wish-lists/${id}`);
 </script>
 
 <template>
