@@ -20,7 +20,8 @@ const removeFromWishlist = (id: number) => {
   }
 };
 
-const goToDetailPage = (id: number) => router.push(`/product-details/${id}`);
+const viewProductDetails = (id: number) =>
+  router.push(`/product-details/${id}`);
 const updateWishlist = (event: Event, id: number) => {
   event.stopPropagation();
   wishlist.value.includes(id) ? removeFromWishlist(id) : addToWishlist(id);
@@ -33,7 +34,7 @@ const updateWishlist = (event: Event, id: number) => {
       v-for="product in products"
       :key="product.id"
       class="products__item"
-      @click="goToDetailPage(product.id)"
+      @click="viewProductDetails(product.id)"
     >
       <div class="products__item-container">
         <button
