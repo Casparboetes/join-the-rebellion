@@ -18,7 +18,11 @@ const handleToggle = (toggles: boolean) => (toggle.value = toggles);
     <AppHeader :nav-items="navItems" @emit-toggle="handleToggle" />
     <AppDrawer :is-open="toggle" :nav-items="navItems" />
     <div class="app__main">
-      <router-view></router-view>
+      <router-view v-slot="{ Component }">
+        <transition mode="out-in" name="fade">
+          <component :is="Component" />
+        </transition>
+      </router-view>
     </div>
     <AppFooter />
   </div>
@@ -27,6 +31,8 @@ const handleToggle = (toggles: boolean) => (toggle.value = toggles);
 <style lang="scss" scoped>
 .app {
   &__main {
+    min-height: 100vh;
+
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
@@ -37,6 +43,18 @@ const handleToggle = (toggles: boolean) => (toggle.value = toggles);
     &__main {
       padding-top: $h-header-large;
     }
+  }
+
+  .fade-enter-active,
+  .fade-leave-active {
+    transition-duration: 0.3s;
+    transition-property: opacity;
+    transition-timing-function: ease;
+  }
+
+  .fade-enter,
+  .fade-leave-active {
+    opacity: 0;
   }
 }
 </style>
