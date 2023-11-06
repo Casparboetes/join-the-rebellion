@@ -1,6 +1,6 @@
 import { ref } from 'vue';
 
-export default async function useAsyncPatch<T>(
+export default async function useAsyncPatchOrPost<T>(
   method: string,
   url: string,
   body: {
@@ -24,8 +24,6 @@ export default async function useAsyncPatch<T>(
     if (response.ok) {
       const responseData = await response.json();
       data.value = responseData;
-      console.log(responseData);
-      console.log('Product was successfully posted:', responseData);
     } else {
       error.value = response.status;
 
