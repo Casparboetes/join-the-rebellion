@@ -18,11 +18,13 @@ const handleToggle = (toggles: boolean) => (toggle.value = toggles);
     <AppHeader :nav-items="navItems" @emit-toggle="handleToggle" />
     <AppDrawer :is-open="toggle" :nav-items="navItems" />
     <div class="app__main">
-      <router-view v-slot="{ Component }">
-        <transition mode="out-in" name="fade">
-          <component :is="Component" />
-        </transition>
-      </router-view>
+      <suspense>
+        <router-view v-slot="{ Component }">
+          <transition mode="out-in" name="fade">
+            <component :is="Component" />
+          </transition>
+        </router-view>
+      </suspense>
     </div>
     <AppFooter />
   </div>
