@@ -27,7 +27,6 @@ const addToWishlist = async (id: number) => {
   const { groupId, name, id: productId } = newItem;
 
   const targetObject = props?.list?.find((item) => item.id === groupId);
-  console.log('targetObject', targetObject);
 
   const postItem = {
     id: groupId,
@@ -55,7 +54,6 @@ const removeFromWishlist = async (
   wishListItem: MappedProduct[]
 ) => {
   const index = wishlist.value.findIndex((product) => product.id === id);
-  console.log(index);
 
   if (index !== -1) {
     const [deconstructedItem] = wishListItem;
@@ -92,7 +90,6 @@ const updateWishlist = (event: Event, productId: number) => {
   event.stopPropagation();
   const wishlistItem = wishlist.value.filter((item) => item.id === productId);
   const rawObject = JSON.parse(JSON.stringify(wishlistItem));
-  console.log('000000', rawObject);
 
   isFavourite(productId)
     ? removeFromWishlist(productId, rawObject)
