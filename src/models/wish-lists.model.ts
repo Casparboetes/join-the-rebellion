@@ -1,7 +1,7 @@
-export interface WishList {
+export interface WishListInterface {
   id: number;
   name: string;
   products: number[];
 }
 
-export declare type WishLists = WishList[];
+export declare type WishLists = WishListInterface[];
