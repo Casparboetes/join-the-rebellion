@@ -15,7 +15,7 @@ module.exports = {
     'prettier'
   ],
   globals: {
-    defineProps: "readonly"
+    defineProps: 'readonly'
   },
   parserOptions: {
     ecmaVersion: 'latest',
