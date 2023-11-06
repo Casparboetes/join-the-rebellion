@@ -3,10 +3,9 @@ import type { MappedProduct, Products } from '@/models/products.model.ts';
 import type { WishLists } from '@/models/wish-lists.model.ts';
 import router from '@/router';
 import { onMounted, PropType, ref } from 'vue';
+import useAsyncPatch from '@/composables/use/patch.ts';
 
-const emit = defineEmits<{
-  clickedOnFav: [boolean];
-}>();
+const emit = defineEmits(['emitReFetch']);
 
 const props = defineProps({
   products: { type: Object as PropType<Products | null>, required: true },
@@ -18,21 +17,17 @@ const wishlist = ref<MappedProduct[]>([]);
 const viewProductDetails = (id: number) =>
   router.push(`/product-details/${id}`);
 
-const addToWishlist = (id: number) => {
+const addToWishlist = async (id: number) => {
   const newItem: MappedProduct = {
     id: id,
     name: 'New list',
-    groupId: 10
+    groupId: 1337
   };
-  wishlist.value.push(newItem);
 
-  patchWishlist(newItem);
-};
-
-const patchWishlist = async (newItem: MappedProduct) => {
   const { groupId, name, id: productId } = newItem;
 
   const targetObject = props?.list?.find((item) => item.id === groupId);
+  console.log('targetObject', targetObject);
 
   const postItem = {
     id: groupId,
@@ -42,32 +37,50 @@ const patchWishlist = async (newItem: MappedProduct) => {
       : [productId]
   };
 
-  try {
-    const response = await fetch('http://localhost:3000/wishlists/10', {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(postItem)
-    });
-    if (response.ok) {
-      const responseData = await response.json();
-      console.log('Product was successfully posted:', responseData);
-    } else {
-      console.error('Failed to post the product:', response.status);
-    }
-  } catch (error) {
-    console.error('An error occurred while posting the product:', error);
-  } finally {
-    emit('clickedOnFav', true);
+  const method = targetObject ? 'PATCH' : 'POST';
+  const url = targetObject
+    ? `http://localhost:3000/wishlists/${1337}`
+    : 'http://localhost:3000/wishlists';
+
+  const { loading } = await useAsyncPatch(method, url, postItem);
+  if (loading) {
+    wishlist.value.push(newItem);
+
+    emit('emitReFetch');
   }
 };
 
-const removeFromWishlist = (id: number) => {
+const removeFromWishlist = async (
+  id: number,
+  wishListItem: MappedProduct[]
+) => {
   const index = wishlist.value.findIndex((product) => product.id === id);
   console.log(index);
+
   if (index !== -1) {
-    wishlist.value.splice(index, 1);
+    const [deconstructedItem] = wishListItem;
+    const { groupId, name, id: productId } = deconstructedItem;
+    const targetObject = props?.list?.find((item) => item.id === groupId);
+
+    const updatedProducts = targetObject?.products.filter(
+      (product) => product !== productId
+    );
+
+    const postItem = {
+      name: name,
+      id: groupId,
+      products: updatedProducts
+    };
+
+    const url = `http://localhost:3000/wishlists/${groupId}`;
+    const method = 'PATCH';
+
+    const { loading } = await useAsyncPatch(method, url, postItem);
+
+    if (loading) {
+      wishlist.value.splice(index, 1);
+      emit('emitReFetch');
+    }
   }
 };
 
@@ -75,10 +88,15 @@ const isFavourite = (productId: number) => {
   return wishlist.value.some((item) => item.id === productId);
 };
 
-const updateWishlist = (event: Event, id: number) => {
+const updateWishlist = (event: Event, productId: number) => {
   event.stopPropagation();
+  const wishlistItem = wishlist.value.filter((item) => item.id === productId);
+  const rawObject = JSON.parse(JSON.stringify(wishlistItem));
+  console.log('000000', rawObject);
 
-  isFavourite(id) ? removeFromWishlist(id) : addToWishlist(id);
+  isFavourite(productId)
+    ? removeFromWishlist(productId, rawObject)
+    : addToWishlist(productId);
 };
 
 onMounted(() => {
