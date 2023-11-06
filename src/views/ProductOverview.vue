@@ -10,15 +10,6 @@ const { data: products } = useApi<Products>('http://localhost:3000/products');
 const list = ref(null);
 const openSearch = ref(false);
 
-const response = await fetch('http://localhost:3000/wishlists');
-const data = await response.json();
-list.value = data;
-
-const fetchData = async () => {
-  const response = await fetch('http://localhost:3000/wishlists');
-  list.value = await response.json();
-};
-
 const searchForEnlightenment = async (query: string) => {
   const response = await fetch(`http://localhost:3000/products?q=${query}`);
   products.value = await response.json();
@@ -28,6 +19,15 @@ defineExpose({
   searchForEnlightenment,
   openSearch
 });
+
+const response = await fetch('http://localhost:3000/wishlists');
+const data = await response.json();
+list.value = data;
+
+const fetchData = async () => {
+  const response = await fetch('http://localhost:3000/wishlists');
+  list.value = await response.json();
+};
 </script>
 
 <template>
