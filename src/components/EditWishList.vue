@@ -14,7 +14,7 @@ const { data } = useApi<WishListInterface>(
 const products = ref<any>(null);
 
 watch(data, async (newData) => {
-  if (newData) {
+  if (newData?.products.length) {
     await fetchData(newData.products);
   }
 });
