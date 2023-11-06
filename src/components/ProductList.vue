@@ -134,7 +134,7 @@ const updateWishlist = (event: Event, id: number) => {
     }
 
     &-image {
-      background-color: #666;
+      background-color: $c-grey;
       min-height: 24.6rem;
       height: auto;
       width: 100%;
