@@ -2,6 +2,9 @@
 import useApi from '@/composables/use/api';
 import { WishLists } from '@/models/wish-lists.model.ts';
 import WishList from '@/components/WishList.vue';
+import WishListEmpty from '@/components/WishListEmpty.vue';
+import { ref, watch } from 'vue';
+import router from '@/router';
 
 const { data: wishLists } = useApi<WishLists>(
   'http://localhost:3000/wishlists'
