@@ -4,6 +4,7 @@ import { ref, UnwrapRef, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { WishListInterface } from '@/models/wish-lists.model.ts';
 import ProductList from '@/components/ProductList.vue';
+import type { Products } from '@/models/products.model.ts';
 
 const route = useRoute();
 
@@ -11,7 +12,7 @@ const id = parseInt(<string>route.params.id);
 const { data } = useApi<WishListInterface>(
   `http://localhost:3000/wishlists/${id}`
 );
-const products = ref<any>(null);
+const products = ref<Products | null>(null);
 
 watch(data, async (newData) => {
   if (newData?.products.length) {
@@ -24,7 +25,7 @@ const fetchData = async (
 ) => {
   const queryParams: string[] = productIds.map((num) => `id=${num}`);
   const queryString: string = queryParams.join('&');
-  const finalQueryString: string = `?${queryString}`;
+  const finalQueryString = `?${queryString}`;
 
   try {
     const response = await fetch(
@@ -42,7 +43,7 @@ const fetchData = async (
 <template>
   <h2>My Wishlist</h2>
 
-  <ProductList :products="products" />
+  <ProductList v-if="products" :products="products" />
 </template>
 
 <style lang="scss" scoped></style>
