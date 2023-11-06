@@ -52,7 +52,7 @@ const { data: wishLists } = useApi<WishLists>(
 
     <WishList
       v-if="wishLists && router.currentRoute.value.fullPath === '/wish-lists'"
-      :wishLists="wishLists"
+      :wish-lists="wishLists"
     />
 
     <button
