@@ -5,6 +5,10 @@ defineProps<{
   isOpen: boolean;
   navItems: NavItem;
 }>();
+
+const emit = defineEmits(['emitCloseMenu']);
+
+const emitsCloseMenu = () => emit('emitCloseMenu');
 </script>
 
 <template>
@@ -20,6 +24,7 @@ defineProps<{
             :to="{ path: item.path }"
             active-class="drawer__nav-link--active"
             class="drawer__nav-link"
+            @click="emitsCloseMenu"
             >{{ item.name }}
           </router-link>
         </li>

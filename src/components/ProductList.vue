@@ -1,51 +1,136 @@
 <script lang="ts" setup>
-import type { Products } from '@/models/products.model.ts';
-import { ref } from 'vue';
+import type { MappedProduct, Products } from '@/models/products.model.ts';
+import type { WishLists } from '@/models/wish-lists.model.ts';
 import router from '@/router';
+import { onMounted, PropType, ref } from 'vue';
+import useAsyncPatchOrPost from '@/composables/use/patchOrPost.ts';
 
-defineProps<{
-  products: Products | null;
-}>();
+const emit = defineEmits(['emitReFetch']);
 
-const wishlist = ref<number[]>([]);
+const props = defineProps({
+  products: { type: Object as PropType<Products | null>, required: true },
+  list: { type: Object as PropType<WishLists | null> }
+});
 
-const addToWishlist = (id: number) => {
-  wishlist.value.push(id);
-};
+const wishlist = ref<MappedProduct[]>([]);
 
-const removeFromWishlist = (id: number) => {
-  const index = wishlist.value.indexOf(id);
-  if (index !== -1) {
-    wishlist.value.splice(index, 1);
+const viewProductDetails = (id: number) =>
+  router.push(`/product-details/${id}`);
+
+const addToWishlist = async (id: number) => {
+  const newItem: MappedProduct = {
+    id: id,
+    name: 'New list',
+    groupId: 1337
+  };
+
+  const { groupId, name, id: productId } = newItem;
+
+  const targetObject = props?.list?.find((item) => item.id === groupId);
+
+  const postItem = {
+    id: groupId,
+    name: name,
+    products: targetObject
+      ? [...targetObject?.products, productId]
+      : [productId]
+  };
+
+  const method = targetObject ? 'PATCH' : 'POST';
+  const url = targetObject
+    ? `http://localhost:3000/wishlists/${1337}`
+    : 'http://localhost:3000/wishlists';
+
+  const { loading } = await useAsyncPatchOrPost(method, url, postItem);
+  if (loading) {
+    wishlist.value.push(newItem);
+
+    emit('emitReFetch');
   }
 };
 
-const goToDetailPage = (id: number) => router.push(`/product-details/${id}`);
-const updateWishlist = (event: Event, id: number) => {
-  event.stopPropagation();
-  wishlist.value.includes(id) ? removeFromWishlist(id) : addToWishlist(id);
+const removeFromWishlist = async (
+  id: number,
+  wishListItem: MappedProduct[]
+) => {
+  const index = wishlist.value.findIndex((product) => product.id === id);
+
+  if (index !== -1) {
+    const [deconstructedItem] = wishListItem;
+    const { groupId, name, id: productId } = deconstructedItem;
+    const targetObject = props?.list?.find((item) => item.id === groupId);
+
+    const updatedProducts = targetObject?.products.filter(
+      (product) => product !== productId
+    );
+
+    const postItem = {
+      name: name,
+      id: groupId,
+      products: updatedProducts
+    };
+
+    const url = `http://localhost:3000/wishlists/${groupId}`;
+    const method = 'PATCH';
+
+    const { loading } = await useAsyncPatchOrPost(method, url, postItem);
+
+    if (loading) {
+      wishlist.value.splice(index, 1);
+      emit('emitReFetch');
+    }
+  }
 };
+
+const isFavourite = (productId: number) => {
+  return wishlist.value.some((item) => item.id === productId);
+};
+
+const updateWishlist = (event: Event, productId: number) => {
+  event.stopPropagation();
+  const wishlistItem = wishlist.value.filter((item) => item.id === productId);
+  const rawObject = JSON.parse(JSON.stringify(wishlistItem));
+
+  isFavourite(productId)
+    ? removeFromWishlist(productId, rawObject)
+    : addToWishlist(productId);
+};
+
+onMounted(() => {
+  if (props.list) {
+    wishlist.value = props?.list.flatMap((item) =>
+      item.products.map((productId) => ({
+        id: productId,
+        name: item.name,
+        groupId: item.id
+      }))
+    );
+  }
+});
 </script>
 
 <template>
   <div class="products">
     <div
-      v-for="product in products"
+      v-for="product in props.products"
       :key="product.id"
       class="products__item"
-      @click="goToDetailPage(product.id)"
+      @click="viewProductDetails(product.id)"
     >
-      <div class="products__item-container">
+      <div
+        v-if="router.currentRoute.value.fullPath === '/product-overview'"
+        class="products__item-container"
+      >
         <button
           class="products__item-button products__item-button--heart"
           @click="updateWishlist($event, product.id)"
         >
           <font-awesome-icon
             :class="{
-              fas: wishlist.includes(product.id),
-              far: !wishlist.includes(product.id)
+              fas: isFavourite(product.id),
+              far: !isFavourite(product.id)
             }"
-            :icon="[wishlist.includes(product.id) ? 'fas' : 'far', 'heart']"
+            :icon="[isFavourite(product.id) ? 'fas' : 'far', 'heart']"
             class="products__item-icon"
             size="3x"
           />
@@ -70,13 +155,13 @@ const updateWishlist = (event: Event, id: number) => {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  gap: 4rem;
 
   &__item {
     box-shadow: 0 0 1rem rgba(0, 0, 0, 0.15);
-    margin-bottom: 2rem;
+    cursor: pointer;
     padding: 2rem;
     width: calc(90% - 2rem);
-    cursor: pointer;
 
     &-container {
       display: flex;
@@ -134,7 +219,7 @@ const updateWishlist = (event: Event, id: number) => {
     }
 
     &-image {
-      background-color: #666;
+      background-color: $c-grey;
       min-height: 24.6rem;
       height: auto;
       width: 100%;
@@ -155,19 +240,19 @@ const updateWishlist = (event: Event, id: number) => {
 
   @include screen($screen-simple) {
     &__item {
-      margin-bottom: 4rem;
       width: calc(45% - 4rem);
-
-      &:nth-child(odd) {
-        margin-right: 4rem;
-      }
     }
   }
 
   @include screen($screen-normal) {
     &__item {
-      // 2 column and wishlist appears
-      //width: calc(33% - 4rem);
+      width: calc(35% - 4rem);
+    }
+  }
+
+  @include screen($screen-xl) {
+    &__item {
+      width: calc(29% - 5rem);
     }
   }
 }

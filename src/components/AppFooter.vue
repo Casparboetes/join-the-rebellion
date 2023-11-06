@@ -15,6 +15,7 @@
         />
       </div>
     </div>
+    © Copyright Caspar Boetes - {{ new Date(Date.now()).getFullYear() }}
   </section>
 </template>
 

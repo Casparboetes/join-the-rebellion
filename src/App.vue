@@ -9,16 +9,35 @@ const navItems = ref<NavItem>([
   { name: 'Product Overview', path: '/product-overview', id: 1 },
   { name: 'Wish Lists', path: '/wish-lists', id: 2 }
 ]);
+const exposeHeader = ref();
 const toggle = ref(false);
+
+const closeHeaderMenu = () => {
+  exposeHeader?.value?.closeMenu();
+};
 const handleToggle = (toggles: boolean) => (toggle.value = toggles);
 </script>
 
 <template>
   <div class="app">
-    <AppHeader :nav-items="navItems" @emit-toggle="handleToggle" />
-    <AppDrawer :is-open="toggle" :nav-items="navItems" />
+    <AppHeader
+      ref="exposeHeader"
+      :nav-items="navItems"
+      @emit-toggle="handleToggle"
+    />
+    <AppDrawer
+      :is-open="toggle"
+      :nav-items="navItems"
+      @emit-close-menu="closeHeaderMenu"
+    />
     <div class="app__main">
-      <router-view></router-view>
+      <suspense>
+        <router-view v-slot="{ Component }">
+          <transition mode="out-in" name="fade">
+            <component :is="Component" />
+          </transition>
+        </router-view>
+      </suspense>
     </div>
     <AppFooter />
   </div>
@@ -27,6 +46,11 @@ const handleToggle = (toggles: boolean) => (toggle.value = toggles);
 <style lang="scss" scoped>
 .app {
   &__main {
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
     padding-top: $h-header;
   }
 
@@ -34,6 +58,18 @@ const handleToggle = (toggles: boolean) => (toggle.value = toggles);
     &__main {
       padding-top: $h-header-large;
     }
+  }
+
+  .fade-enter-active,
+  .fade-leave-active {
+    transition-duration: 0.3s;
+    transition-property: opacity;
+    transition-timing-function: ease;
+  }
+
+  .fade-enter,
+  .fade-leave-active {
+    opacity: 0;
   }
 }
 </style>

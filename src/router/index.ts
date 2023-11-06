@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
-import ProductOverview from '@/views/ProductOverview.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -10,7 +9,9 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/product-overview',
     name: 'product-overview',
-    component: ProductOverview
+    components: {
+      default: () => import('@/views/ProductOverview.vue')
+    }
   },
   {
     path: '/product-details/:id',
@@ -20,7 +21,13 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/wish-lists',
     name: 'wish-lists',
-    component: () => import('@/views/WishLists.vue')
+    component: () => import('@/views/WishLists.vue'),
+    children: [
+      {
+        path: ':id',
+        component: () => import('@/components/EditWishList.vue')
+      }
+    ]
   },
   {
     path: '/:pathMatch(.*)*',

@@ -11,4 +11,10 @@ export interface Product {
   specifications: Specifications;
 }
 
+export type MappedProduct = {
+  id?: number;
+  name?: string;
+  groupId?: number;
+};
+
 export declare type Products = Product[];

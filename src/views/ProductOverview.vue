@@ -1,9 +1,23 @@
 <script lang="ts" setup>
 import useApi from '@/composables/use/api';
 import type { Products } from '@/models/products.model.ts';
+
 import ProductList from '@/components/ProductList.vue';
+import { ref } from 'vue';
 
 const { data: products } = useApi<Products>('http://localhost:3000/products');
+
+const list = ref(null);
+
+// GET request using fetch with async/await
+const response = await fetch('http://localhost:3000/wishlists');
+const data = await response.json();
+list.value = data;
+
+const fetchData = async () => {
+  const response = await fetch('http://localhost:3000/wishlists');
+  list.value = await response.json();
+};
 </script>
 
 <template>
@@ -11,7 +25,13 @@ const { data: products } = useApi<Products>('http://localhost:3000/products');
     <h1 class="product-overview__page-title">
       Buying is<span class="product-overview__highlight"> believing.</span>
     </h1>
-    <ProductList :products="products" />
+
+    <ProductList
+      v-if="products"
+      :list="list"
+      :products="products"
+      @emitReFetch="fetchData"
+    />
   </div>
 </template>
 
@@ -51,6 +71,10 @@ const { data: products } = useApi<Products>('http://localhost:3000/products');
       font-size: 8rem;
       margin: 0 0 2rem 0;
     }
+  }
+
+  @include screen($screen-normal) {
+    @include container($w-header);
   }
 }
 </style>

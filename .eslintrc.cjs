@@ -14,6 +14,9 @@ module.exports = {
     'plugin:vue/vue3-recommended',
     'prettier'
   ],
+  globals: {
+    defineProps: 'readonly'
+  },
   parserOptions: {
     ecmaVersion: 'latest',
     parser: '@typescript-eslint/parser',
