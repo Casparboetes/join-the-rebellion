@@ -9,6 +9,38 @@ import router from '@/router';
 const { data: wishLists } = useApi<WishLists>(
   'http://localhost:3000/wishlists'
 );
+const products = ref<any>(null);
+const prodId = ref<number[]>();
+
+watch(prodId, async (newProdId, oldProdID) => {
+  console.log('newProdId', newProdId);
+  console.log('oldProdID', oldProdID);
+  if (newProdId) {
+    await fetchData(newProdId);
+  }
+});
+
+const fetchData = async (prodId: number[]) => {
+  console.log('fetchData uit onMounted');
+  console.log('fetchData uit onMounted', prodId);
+
+  const queryParams: string[] = prodId.map((num) => `id=${num}`);
+  const queryString: string = queryParams.join('&');
+  const finalQueryString: string = `?${queryString}`;
+  console.log(finalQueryString);
+  try {
+    const response = await fetch(
+      `http://localhost:3000/products${finalQueryString}`
+    );
+    const result = await response.json();
+    console.log('hoi', result);
+    products.value = result;
+    // isLoading.value = false;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    // isLoading.value = false;
+  }
+};
 </script>
 
 <template>
