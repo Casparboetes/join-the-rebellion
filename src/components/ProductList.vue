@@ -60,7 +60,10 @@ onMounted(() => {
       class="products__item"
       @click="viewProductDetails(product.id)"
     >
-      <div class="products__item-container">
+      <div
+        v-if="router.currentRoute.value.fullPath === '/product-overview'"
+        class="products__item-container"
+      >
         <button
           class="products__item-button products__item-button--heart"
           @click="updateWishlist($event, product.id)"
