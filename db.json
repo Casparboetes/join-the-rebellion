@@ -245,9 +245,7 @@
     {
       "id": 1,
       "name": "Tech Wish List",
-      "products": [
-        1
-      ]
+      "products": []
     },
     {
       "id": 2,
@@ -273,6 +271,17 @@
         16,
         17,
         20
+      ]
+    },
+    {
+      "id": 1337,
+      "name": "New list",
+      "products": [
+        2,
+        1,
+        4,
+        3,
+        5
       ]
     }
   ]
