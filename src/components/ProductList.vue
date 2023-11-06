@@ -1,37 +1,61 @@
 <script lang="ts" setup>
-import type { Products } from '@/models/products.model.ts';
-import { ref } from 'vue';
+import type { MappedProduct, Products } from '@/models/products.model.ts';
+import type { WishLists } from '@/models/wish-lists.model.ts';
 import router from '@/router';
+import { onMounted, PropType, ref } from 'vue';
 
-defineProps<{
-  products: Products | null;
-}>();
+const props = defineProps({
+  products: { type: Object as PropType<Products | null>, required: true },
+  list: { type: Object as PropType<WishLists | null> }
+});
 
-const wishlist = ref<number[]>([]);
+const wishlist = ref<MappedProduct[]>([]);
+
+const viewProductDetails = (id: number) =>
+  router.push(`/product-details/${id}`);
 
 const addToWishlist = (id: number) => {
-  wishlist.value.push(id);
+  const name = 'testing things';
+  const groupId = 2;
+  const newItem: MappedProduct = { id, name, groupId };
+  wishlist.value.push(newItem);
 };
 
 const removeFromWishlist = (id: number) => {
-  const index = wishlist.value.indexOf(id);
+  const index = wishlist.value.findIndex((product) => product.id === id);
   if (index !== -1) {
     wishlist.value.splice(index, 1);
   }
 };
 
-const viewProductDetails = (id: number) =>
-  router.push(`/product-details/${id}`);
+const isFavourite = (productId: number) => {
+  if (!wishlist.value.length) return;
+  return wishlist.value.some((item) => item.id === productId);
+};
+
 const updateWishlist = (event: Event, id: number) => {
   event.stopPropagation();
-  wishlist.value.includes(id) ? removeFromWishlist(id) : addToWishlist(id);
+
+  isFavourite(id) ? removeFromWishlist(id) : addToWishlist(id);
 };
+
+onMounted(() => {
+  if (props.list) {
+    wishlist.value = props?.list.flatMap((item) =>
+      item.products.map((productId) => ({
+        id: productId,
+        name: item.name,
+        groupId: item.id
+      }))
+    );
+  }
+});
 </script>
 
 <template>
   <div class="products">
     <div
-      v-for="product in products"
+      v-for="product in props.products"
       :key="product.id"
       class="products__item"
       @click="viewProductDetails(product.id)"
@@ -43,10 +67,10 @@ const updateWishlist = (event: Event, id: number) => {
         >
           <font-awesome-icon
             :class="{
-              fas: wishlist.includes(product.id),
-              far: !wishlist.includes(product.id)
+              fas: isFavourite(product.id),
+              far: !isFavourite(product.id)
             }"
-            :icon="[wishlist.includes(product.id) ? 'fas' : 'far', 'heart']"
+            :icon="[isFavourite(product.id) ? 'fas' : 'far', 'heart']"
             class="products__item-icon"
             size="3x"
           />
