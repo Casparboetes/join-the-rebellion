@@ -15,7 +15,7 @@ const viewWishlist = (id: number) => router.push(`/wish-lists/${id}`);
       v-for="wishList in wishLists"
       :key="wishList.id"
       class="wish-list__item"
-      @click="viewList(wishList.id)"
+      @click="viewWishlist(wishList.id)"
     >
       <h3 class="wish-list__title">
         {{ wishList.name }}
