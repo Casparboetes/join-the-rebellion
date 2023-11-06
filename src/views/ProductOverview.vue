@@ -13,6 +13,11 @@ const list = ref(null);
 const response = await fetch('http://localhost:3000/wishlists');
 const data = await response.json();
 list.value = data;
+
+const fetchData = async () => {
+  const response = await fetch('http://localhost:3000/wishlists');
+  list.value = await response.json();
+};
 </script>
 
 <template>
@@ -20,7 +25,13 @@ list.value = data;
     <h1 class="product-overview__page-title">
       Buying is<span class="product-overview__highlight"> believing.</span>
     </h1>
-    <ProductList v-if="products" :list="list" :products="products" />
+
+    <ProductList
+      v-if="products"
+      :list="list"
+      :products="products"
+      @clicked-on-fav="fetchData"
+    />
   </div>
 </template>
 

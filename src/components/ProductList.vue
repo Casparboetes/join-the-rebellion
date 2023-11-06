@@ -4,6 +4,10 @@ import type { WishLists } from '@/models/wish-lists.model.ts';
 import router from '@/router';
 import { onMounted, PropType, ref } from 'vue';
 
+const emit = defineEmits<{
+  clickedOnFav: [boolean];
+}>();
+
 const props = defineProps({
   products: { type: Object as PropType<Products | null>, required: true },
   list: { type: Object as PropType<WishLists | null> }
@@ -15,21 +19,59 @@ const viewProductDetails = (id: number) =>
   router.push(`/product-details/${id}`);
 
 const addToWishlist = (id: number) => {
-  const name = 'testing things';
-  const groupId = 2;
-  const newItem: MappedProduct = { id, name, groupId };
+  const newItem: MappedProduct = {
+    id: id,
+    name: 'New list',
+    groupId: 10
+  };
   wishlist.value.push(newItem);
+
+  patchWishlist(newItem);
+};
+
+const patchWishlist = async (newItem: MappedProduct) => {
+  const { groupId, name, id: productId } = newItem;
+
+  const targetObject = props?.list?.find((item) => item.id === groupId);
+
+  const postItem = {
+    id: groupId,
+    name: name,
+    products: targetObject
+      ? [...targetObject?.products, productId]
+      : [productId]
+  };
+
+  try {
+    const response = await fetch('http://localhost:3000/wishlists/10', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(postItem)
+    });
+    if (response.ok) {
+      const responseData = await response.json();
+      console.log('Product was successfully posted:', responseData);
+    } else {
+      console.error('Failed to post the product:', response.status);
+    }
+  } catch (error) {
+    console.error('An error occurred while posting the product:', error);
+  } finally {
+    emit('clickedOnFav', true);
+  }
 };
 
 const removeFromWishlist = (id: number) => {
   const index = wishlist.value.findIndex((product) => product.id === id);
+  console.log(index);
   if (index !== -1) {
     wishlist.value.splice(index, 1);
   }
 };
 
 const isFavourite = (productId: number) => {
-  if (!wishlist.value.length) return;
   return wishlist.value.some((item) => item.id === productId);
 };
 
