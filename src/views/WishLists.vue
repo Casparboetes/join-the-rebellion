@@ -19,7 +19,18 @@ const { data: wishLists } = useApi<WishLists>(
     <hr />
     <WishListEmpty v-if="!wishLists" />
 
-    <WishList :wishLists="wishLists" />
+    <WishList
+      v-if="wishLists && router.currentRoute.value.fullPath === '/wish-lists'"
+      :wishLists="wishLists"
+    />
+
+    <button
+      v-if="router.currentRoute.value.fullPath !== '/wish-lists'"
+      @click="router.back()"
+    >
+      BACK
+    </button>
+    <router-view></router-view>
   </div>
 </template>
 
