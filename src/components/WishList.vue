@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { WishLists } from '@/models/wish-lists.model.ts';
-import { WishList } from '@/models/wish-lists.model.ts';
+import router from '@/router';
 
 defineProps<{
   wishLists: WishLists | null;
@@ -38,29 +38,31 @@ const viewWishlist = (id: number) => router.push(`/wish-lists/${id}`);
 .wish-list {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   gap: 4rem;
+  justify-content: center;
 
   &__item {
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.15);
+    color: $c-black;
+    cursor: pointer;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.15);
-    cursor: pointer;
+    max-width: 43rem;
     padding: 2rem;
     width: calc(100% - 2rem);
-    max-width: 43rem;
   }
 
   &__item-count {
     color: $c-grey;
-    font-weight: bold;
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
   }
 
   &__image {
-    background-color: #666;
-    min-height: 24.6rem;
+    background-color: $c-grey;
     height: auto;
+    min-height: 20rem;
     width: 100%;
   }
 
@@ -70,10 +72,18 @@ const viewWishlist = (id: number) => router.push(`/wish-lists/${id}`);
     margin: 0.5rem 0;
   }
 
+  &__cta {
+    font-size: 1.6rem;
+    font-weight: bold;
+    margin: 2rem 0 1rem;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
   @include screen($screen-simple) {
     &__item {
-      width: calc(45%);
       max-width: 100%;
+      width: calc(45%);
     }
   }
 }
