@@ -14,6 +14,7 @@ const { data: wishLists } = useApi<WishLists>(
       The Products You <span class="wish-lists__highlight"> Love.</span>
     </h1>
     <hr />
+    <WishListEmpty v-if="!wishLists" />
 
     <WishList :wishLists="wishLists" />
   </div>
