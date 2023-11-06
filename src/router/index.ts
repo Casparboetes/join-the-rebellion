@@ -21,7 +21,13 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/wish-lists',
     name: 'wish-lists',
-    component: () => import('@/views/WishLists.vue')
+    component: () => import('@/views/WishLists.vue'),
+    children: [
+      {
+        path: ':id',
+        component: () => import('@/components/EditWishList.vue')
+      }
+    ]
   },
   {
     path: '/:pathMatch(.*)*',
