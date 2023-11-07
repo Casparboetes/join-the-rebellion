@@ -1,15 +1,15 @@
 <script lang="ts" setup>
 import type { MappedProduct, Products } from '@/models/products.model.ts';
-import type { WishLists } from '@/models/wish-lists.model.ts';
+import type { WishListsModel } from '@/models/wish-lists.model.ts';
 import router from '@/router';
 import { onMounted, PropType, ref } from 'vue';
-import useAsyncPatchOrPost from '@/composables/use/patchOrPost.ts';
+import useAsyncApi from '@/composables/use/asyncApi.ts';
 
 const emit = defineEmits(['emitReFetch']);
 
 const props = defineProps({
   products: { type: Object as PropType<Products | null>, required: true },
-  list: { type: Object as PropType<WishLists | null> }
+  list: { type: Object as PropType<WishListsModel | null> }
 });
 
 const wishlist = ref<MappedProduct[]>([]);
@@ -41,7 +41,8 @@ const addToWishlist = async (id: number) => {
     ? `http://localhost:3000/wishlists/${1337}`
     : 'http://localhost:3000/wishlists';
 
-  const { loading } = await useAsyncPatchOrPost(method, url, postItem);
+  //@ts-ignore
+  const { loading } = await useAsyncApi(method, url, postItem);
   if (loading) {
     wishlist.value.push(newItem);
 
@@ -73,7 +74,7 @@ const removeFromWishlist = async (
     const url = `http://localhost:3000/wishlists/${groupId}`;
     const method = 'PATCH';
 
-    const { loading } = await useAsyncPatchOrPost(method, url, postItem);
+    const { loading } = await useAsyncApi(method, url, postItem);
 
     if (loading) {
       wishlist.value.splice(index, 1);
@@ -117,10 +118,7 @@ onMounted(() => {
       class="products__item"
       @click="viewProductDetails(product.id)"
     >
-      <div
-        v-if="router.currentRoute.value.fullPath === '/product-overview'"
-        class="products__item-container"
-      >
+      <div class="products__item-container">
         <button
           class="products__item-button products__item-button--heart"
           @click="updateWishlist($event, product.id)"
@@ -244,7 +242,7 @@ onMounted(() => {
     }
 
     &__item:only-child {
-      width: calc(80% - 4rem);
+      width: calc(50% - 4rem);
     }
   }
 

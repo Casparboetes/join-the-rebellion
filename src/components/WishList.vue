@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import type { WishLists } from '@/models/wish-lists.model.ts';
+import type { WishListsModel } from '@/models/wish-lists.model.ts';
 import router from '@/router';
 
 defineProps<{
-  wishLists: WishLists | null;
+  wishLists: WishListsModel | null;
 }>();
 
 const viewWishlist = (id: number) => router.push(`/wish-lists/${id}`);
@@ -83,7 +83,7 @@ const viewWishlist = (id: number) => router.push(`/wish-lists/${id}`);
   @include screen($screen-simple) {
     &__item {
       max-width: 100%;
-      width: calc(45%);
+      width: calc(40%);
     }
   }
 }

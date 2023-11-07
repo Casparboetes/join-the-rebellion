@@ -79,7 +79,7 @@ onUnmounted(() => {
         <button
           v-show="!isOpen"
           class="header__button header__button--search"
-          v-on:click="toggleSearchBar()"
+          @click="toggleSearchBar()"
         >
           <font-awesome-icon :icon="['fa', 'search']" size="2x" />
         </button>

@@ -1,21 +1,13 @@
 <script lang="ts" setup>
 import ProductList from '@/components/ProductList.vue';
 import type { Products } from '@/models/products.model.ts';
-import useApi from '@/composables/use/api';
 import { onMounted, onUnmounted, ref } from 'vue';
 import SearchBar from '@/components/SearchBar.vue';
+import useAsyncApi from '@/composables/use/asyncApi.ts';
+import type { WishListsModel } from '@/models/wish-lists.model.ts';
 
-const { data: products } = useApi<Products>('http://localhost:3000/products');
-
-const list = ref(null);
 const showSearchBar = ref(false);
 const hideSearchBar = ref(false);
-
-const searchForEnlightenment = async (query: string) => {
-  const response = await fetch(`http://localhost:3000/products?q=${query}`);
-  products.value = await response.json();
-};
-
 const toggleSearchBar = () => (showSearchBar.value = !showSearchBar.value);
 const toggleHideSearchBar = () => (hideSearchBar.value = !hideSearchBar.value);
 
@@ -24,26 +16,37 @@ defineExpose({
   toggleHideSearchBar
 });
 
-const response = await fetch('http://localhost:3000/wishlists');
-const data = await response.json();
-list.value = data;
+const { data: products } = await useAsyncApi<Products>(
+  'GET',
+  'http://localhost:3000/products'
+);
+
+const { data: wishListArray } = await useAsyncApi<WishListsModel>(
+  'GET',
+  'http://localhost:3000/wishlists'
+);
+
+const searchForEnlightenment = async (query: string) => {
+  const { data: response } = await useAsyncApi<Products>(
+    'GET',
+    `http://localhost:3000/products?q=${query}`
+  );
+  products.value = response.value;
+};
 
 const fetchData = async () => {
-  const response = await fetch('http://localhost:3000/wishlists');
-  list.value = await response.json();
+  const { data: response } = await useAsyncApi<WishListsModel>(
+    'GET',
+    'http://localhost:3000/wishlists'
+  );
+  wishListArray.value = response.value;
 };
 
-const handleScroll = () => {
-  hideSearchBar.value = window.scrollY >= 25;
-};
+const handleScroll = () => (hideSearchBar.value = window.scrollY >= 25);
 
-onMounted(() => {
-  window.addEventListener('scroll', handleScroll);
-});
+onMounted(() => window.addEventListener('scroll', handleScroll));
 
-onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll);
-});
+onUnmounted(() => window.removeEventListener('scroll', handleScroll));
 </script>
 
 <template>
@@ -60,9 +63,9 @@ onUnmounted(() => {
 
     <ProductList
       v-if="products"
-      :list="list"
+      :list="wishListArray"
       :products="products"
-      @emitReFetch="fetchData"
+      @emit-re-fetch="fetchData"
     />
   </div>
 </template>

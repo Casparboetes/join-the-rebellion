@@ -25,7 +25,7 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: ':id',
-        component: () => import('@/components/EditWishList.vue')
+        component: () => import('@/views/EditWishList.vue')
       }
     ]
   },
@@ -38,7 +38,10 @@ const routes: Array<RouteRecordRaw> = [
 
 const router = createRouter({
   history: createWebHistory(),
-  routes
+  routes,
+  scrollBehavior() {
+    return { top: 0, left: 0 };
+  }
 });
 
 export default router;
