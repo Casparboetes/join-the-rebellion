@@ -8,9 +8,8 @@ import type { Products } from '@/models/products.model.ts';
 
 const route = useRoute();
 
-const id = parseInt(<string>route.params.id);
 const { data } = useApi<WishListInterface>(
-  `http://localhost:3000/wishlists/${id}`
+  `http://localhost:3000/wishlists/${route.params.id}`
 );
 const products = ref<Products | null>(null);
 
