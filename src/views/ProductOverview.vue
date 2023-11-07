@@ -1,19 +1,29 @@
 <script lang="ts" setup>
 import ProductList from '@/components/ProductList.vue';
 import type { Products } from '@/models/products.model.ts';
-import useApi from '@/composables/use/api';
 import { onMounted, onUnmounted, ref } from 'vue';
 import SearchBar from '@/components/SearchBar.vue';
+import useAsyncApi from '@/composables/use/asyncApi.ts';
+import { WishLists } from '@/models/wish-lists.model.ts';
 
-const { data: products } = useApi<Products>('http://localhost:3000/products');
+const { data: products } = await useAsyncApi<Products>(
+  'GET',
+  'http://localhost:3000/products'
+);
+const { data: wishLists } = await useAsyncApi<WishLists>(
+  'GET',
+  'http://localhost:3000/wishlists'
+);
 
-const list = ref(null);
 const showSearchBar = ref(false);
 const hideSearchBar = ref(false);
 
 const searchForEnlightenment = async (query: string) => {
-  const response = await fetch(`http://localhost:3000/products?q=${query}`);
-  products.value = await response.json();
+  const { data: response } = await useAsyncApi<Products>(
+    'GET',
+    `http://localhost:3000/products?q=${query}`
+  );
+  products.value = response.value;
 };
 
 const toggleSearchBar = () => (showSearchBar.value = !showSearchBar.value);
@@ -24,12 +34,12 @@ defineExpose({
   toggleHideSearchBar
 });
 
-const response = await fetch('http://localhost:3000/wishlists');
-list.value = await response.json();
-
 const fetchData = async () => {
-  const response = await fetch('http://localhost:3000/wishlists');
-  list.value = await response.json();
+  const { data: response } = await useAsyncApi<WishLists>(
+    'GET',
+    'http://localhost:3000/wishlists'
+  );
+  wishLists.value = response.value;
 };
 
 const handleScroll = () => (hideSearchBar.value = window.scrollY >= 25);
@@ -53,7 +63,7 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll));
 
     <ProductList
       v-if="products"
-      :list="list"
+      :list="wishLists"
       :products="products"
       @emit-re-fetch="fetchData"
     />
