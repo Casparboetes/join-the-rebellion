@@ -242,6 +242,10 @@ onMounted(() => {
     &__item {
       width: calc(45% - 4rem);
     }
+
+    &__item:only-child {
+      width: calc(80% - 4rem);
+    }
   }
 
   @include screen($screen-normal) {

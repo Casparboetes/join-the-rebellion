@@ -4,18 +4,30 @@ import type { NavItem } from '@/models/nav-item.model.ts';
 import AppHeader from '@/components/AppHeader.vue';
 import AppDrawer from '@/components/AppDrawer.vue';
 import AppFooter from '@/components/AppFooter.vue';
+import router from '@/router';
 
 const navItems = ref<NavItem>([
   { name: 'Product Overview', path: '/product-overview', id: 1 },
   { name: 'Wish Lists', path: '/wish-lists', id: 2 }
 ]);
 const exposeHeader = ref();
+const exposeComponent = ref();
 const toggle = ref(false);
 
 const closeHeaderMenu = () => {
   exposeHeader?.value?.closeMenu();
 };
-const handleToggle = (toggles: boolean) => (toggle.value = toggles);
+const handleToggle = (toggles: boolean) => {
+  toggle.value = toggles;
+
+  if (router.currentRoute.value.name === 'product-overview') {
+    setTimeout(
+      () => exposeComponent?.value?.toggleHideSearchBar(),
+      !toggles ? 500 : 0
+    );
+  }
+};
+const handleToggleSearchBar = () => exposeComponent?.value?.toggleSearchBar();
 </script>
 
 <template>
@@ -24,6 +36,7 @@ const handleToggle = (toggles: boolean) => (toggle.value = toggles);
       ref="exposeHeader"
       :nav-items="navItems"
       @emit-toggle="handleToggle"
+      @emit-toggle-search-bar="handleToggleSearchBar"
     />
     <AppDrawer
       :is-open="toggle"
@@ -34,7 +47,7 @@ const handleToggle = (toggles: boolean) => (toggle.value = toggles);
       <suspense>
         <router-view v-slot="{ Component }">
           <transition mode="out-in" name="fade">
-            <component :is="Component" />
+            <component :is="Component" ref="exposeComponent" />
           </transition>
         </router-view>
       </suspense>
@@ -47,8 +60,6 @@ const handleToggle = (toggles: boolean) => (toggle.value = toggles);
 .app {
   &__main {
     min-height: 100vh;
-
-    display: flex;
     flex-direction: row;
     justify-content: space-evenly;
     padding-top: $h-header;

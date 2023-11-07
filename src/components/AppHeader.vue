@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { NavItem } from '@/models/nav-item.model.ts';
 import { onMounted, onUnmounted, ref } from 'vue';
+import router from '@/router';
 
 defineProps<{
   navItems: NavItem;
@@ -8,6 +9,7 @@ defineProps<{
 
 const emit = defineEmits<{
   emitToggle: [boolean];
+  emitToggleSearchBar: [];
 }>();
 
 const windowWidth = ref(window.innerWidth);
@@ -22,6 +24,11 @@ const closeMenu = () => {
   if (isOpen.value) {
     handleToggle();
   }
+};
+
+const toggleSearchBar = () => {
+  router.push('/');
+  setTimeout(() => emit('emitToggleSearchBar'), 600);
 };
 
 defineExpose({
@@ -67,6 +74,16 @@ onUnmounted(() => {
           </li>
         </ul>
       </nav>
+
+      <transition mode="out-in" name="fade">
+        <button
+          v-show="!isOpen"
+          class="header__button header__button--search"
+          v-on:click="toggleSearchBar()"
+        >
+          <font-awesome-icon :icon="['fa', 'search']" size="2x" />
+        </button>
+      </transition>
 
       <button
         :class="{ 'header__hamburger--menu-open': isOpen }"
@@ -167,14 +184,12 @@ onUnmounted(() => {
     color: $c-pink--dark;
 
     &--search {
-      transition: transform 0.1s ease-in-out;
+      margin: 0 2rem;
+      transition: transform 0.275s ease-in-out;
 
       &:hover {
         color: $c-pink;
-      }
-
-      &:active {
-        transform: scale(1.2);
+        transform: scale(1.25);
       }
 
       &:focus-visible {
@@ -267,6 +282,12 @@ onUnmounted(() => {
 
     &__nav {
       display: block;
+    }
+
+    &__button {
+      &--search {
+        margin-right: 1.7rem;
+      }
     }
 
     &__hamburger {

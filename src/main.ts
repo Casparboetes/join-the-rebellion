@@ -9,11 +9,12 @@ import {
   faArrowLeftLong,
   faHeart as fasHeart,
   faPlus,
+  faSearch,
   faXmark
 } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
 
-library.add(fasHeart, farHeart, faPlus, faXmark, faArrowLeftLong);
+library.add(fasHeart, farHeart, faPlus, faXmark, faArrowLeftLong, faSearch);
 const app = createApp(App);
 
 app.use(router);
