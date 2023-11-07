@@ -56,9 +56,7 @@ const handleSearchInput = async () =>
       <input
         v-model="searchQuery"
         aria-label="Search for inspiration"
-        class="search-bar__input"
         name="q"
-        placeholder="Find enlightenment..."
         type="search"
         @input="handleSearchInput"
       />
@@ -68,17 +66,6 @@ const handleSearchInput = async () =>
 
 <style lang="scss" scoped>
 .search-bar {
-  body {
-    display: grid;
-    grid-template:
-      'search' minmax(300px, 50vh)
-      / 1fr;
-    margin: 0;
-    font:
-      24px/1.5 system-ui,
-      sans-serif;
-  }
-
   #search {
     display: grid;
     grid-area: search;
