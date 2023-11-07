@@ -13,7 +13,7 @@
 <style lang="scss" scoped>
 .wish-list-empty {
   @include container($w-header);
-  
+
   display: flex;
   flex-direction: column;
   justify-content: center;

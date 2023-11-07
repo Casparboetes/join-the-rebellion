@@ -41,6 +41,7 @@ const addToWishlist = async (id: number) => {
     ? `http://localhost:3000/wishlists/${1337}`
     : 'http://localhost:3000/wishlists';
 
+  //@ts-ignore
   const { loading } = await useAsyncApi(method, url, postItem);
   if (loading) {
     wishlist.value.push(newItem);

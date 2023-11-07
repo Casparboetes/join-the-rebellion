@@ -4,19 +4,27 @@ import type { Products } from '@/models/products.model.ts';
 import { onMounted, onUnmounted, ref } from 'vue';
 import SearchBar from '@/components/SearchBar.vue';
 import useAsyncApi from '@/composables/use/asyncApi.ts';
-import { WishLists } from '@/models/wish-lists.model.ts';
+import type { WishListsModel } from '@/models/wish-lists.model.ts';
+
+const showSearchBar = ref(false);
+const hideSearchBar = ref(false);
+const toggleSearchBar = () => (showSearchBar.value = !showSearchBar.value);
+const toggleHideSearchBar = () => (hideSearchBar.value = !hideSearchBar.value);
+
+defineExpose({
+  toggleSearchBar,
+  toggleHideSearchBar
+});
 
 const { data: products } = await useAsyncApi<Products>(
   'GET',
   'http://localhost:3000/products'
 );
-const { data: wishLists } = await useAsyncApi<WishLists>(
+
+const { data: wishListArray } = await useAsyncApi<WishListsModel>(
   'GET',
   'http://localhost:3000/wishlists'
 );
-
-const showSearchBar = ref(false);
-const hideSearchBar = ref(false);
 
 const searchForEnlightenment = async (query: string) => {
   const { data: response } = await useAsyncApi<Products>(
@@ -26,20 +34,12 @@ const searchForEnlightenment = async (query: string) => {
   products.value = response.value;
 };
 
-const toggleSearchBar = () => (showSearchBar.value = !showSearchBar.value);
-const toggleHideSearchBar = () => (hideSearchBar.value = !hideSearchBar.value);
-
-defineExpose({
-  toggleSearchBar,
-  toggleHideSearchBar
-});
-
 const fetchData = async () => {
-  const { data: response } = await useAsyncApi<WishLists>(
+  const { data: response } = await useAsyncApi<WishListsModel>(
     'GET',
     'http://localhost:3000/wishlists'
   );
-  wishLists.value = response.value;
+  wishListArray.value = response.value;
 };
 
 const handleScroll = () => (hideSearchBar.value = window.scrollY >= 25);
@@ -63,7 +63,7 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll));
 
     <ProductList
       v-if="products"
-      :list="wishLists"
+      :list="wishListArray"
       :products="products"
       @emit-re-fetch="fetchData"
     />
