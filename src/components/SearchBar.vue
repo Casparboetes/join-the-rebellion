@@ -7,11 +7,8 @@ const emit = defineEmits<{
 
 const searchQuery = ref('');
 
-const handleSearchInput = async () => {
-  if (!searchQuery.value.length) return;
-  console.log(searchQuery.value);
+const handleSearchInput = async () =>
   emit('emitSearchQuery', searchQuery.value);
-};
 </script>
 
 <template>
