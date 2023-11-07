@@ -4,6 +4,7 @@ import type { NavItem } from '@/models/nav-item.model.ts';
 import AppHeader from '@/components/AppHeader.vue';
 import AppDrawer from '@/components/AppDrawer.vue';
 import AppFooter from '@/components/AppFooter.vue';
+import router from '@/router';
 
 const navItems = ref<NavItem>([
   { name: 'Product Overview', path: '/product-overview', id: 1 },
@@ -18,12 +19,15 @@ const closeHeaderMenu = () => {
 };
 const handleToggle = (toggles: boolean) => {
   toggle.value = toggles;
-  setTimeout(
-    () => exposeComponent?.value.toggleHideSearchBar(),
-    !toggles ? 500 : 0
-  );
+
+  if (router.currentRoute.value.name === 'product-overview') {
+    setTimeout(
+      () => exposeComponent?.value?.toggleHideSearchBar(),
+      !toggles ? 500 : 0
+    );
+  }
 };
-const handleToggleSearchBar = () => exposeComponent?.value.toggleSearchBar();
+const handleToggleSearchBar = () => exposeComponent?.value?.toggleSearchBar();
 </script>
 
 <template>
