@@ -25,25 +25,18 @@ defineExpose({
 });
 
 const response = await fetch('http://localhost:3000/wishlists');
-const data = await response.json();
-list.value = data;
+list.value = await response.json();
 
 const fetchData = async () => {
   const response = await fetch('http://localhost:3000/wishlists');
   list.value = await response.json();
 };
 
-const handleScroll = () => {
-  hideSearchBar.value = window.scrollY >= 25;
-};
+const handleScroll = () => (hideSearchBar.value = window.scrollY >= 25);
 
-onMounted(() => {
-  window.addEventListener('scroll', handleScroll);
-});
+onMounted(() => window.addEventListener('scroll', handleScroll));
 
-onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll);
-});
+onUnmounted(() => window.removeEventListener('scroll', handleScroll));
 </script>
 
 <template>
@@ -62,7 +55,7 @@ onUnmounted(() => {
       v-if="products"
       :list="list"
       :products="products"
-      @emitReFetch="fetchData"
+      @emit-re-fetch="fetchData"
     />
   </div>
 </template>
