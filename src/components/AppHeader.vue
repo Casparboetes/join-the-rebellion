@@ -75,12 +75,15 @@ onUnmounted(() => {
         </ul>
       </nav>
 
-      <button
-        class="header__button header__button--search"
-        v-on:click="toggleSearchBar()"
-      >
-        <font-awesome-icon :icon="['fa', 'search']" size="2x" />
-      </button>
+      <transition mode="out-in" name="fade">
+        <button
+          v-show="!isOpen"
+          class="header__button header__button--search"
+          v-on:click="toggleSearchBar()"
+        >
+          <font-awesome-icon :icon="['fa', 'search']" size="2x" />
+        </button>
+      </transition>
 
       <button
         :class="{ 'header__hamburger--menu-open': isOpen }"
@@ -187,11 +190,6 @@ onUnmounted(() => {
       &:hover {
         color: $c-pink;
         transform: scale(1.25);
-      }
-
-      &:active {
-        color: $c-pink;
-        transform: scale(1.4);
       }
 
       &:focus-visible {
