@@ -12,18 +12,24 @@
 
 <style lang="scss" scoped>
 .wish-list-empty {
-  text-align: center;
+  @include container($w-header);
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   margin-bottom: 2rem;
+  max-width: 65rem;
+  text-align: center;
+  width: 100%;
 
   &__sub-header {
     font-size: 2.5rem;
-    margin-bottom: 2rem;
     line-height: 5rem;
+    margin-bottom: 2rem;
   }
 
   &__paragraph {
     font-size: 1.6rem;
-    max-width: 65rem;
   }
 }
 </style>
