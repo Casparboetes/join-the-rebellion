@@ -5,6 +5,7 @@ import { useRoute } from 'vue-router';
 import { WishListInterface } from '@/models/wish-lists.model.ts';
 import ProductList from '@/components/ProductList.vue';
 import type { Products } from '@/models/products.model.ts';
+import useAsyncApi from '@/composables/use/asyncApi.ts';
 
 const route = useRoute();
 
@@ -26,16 +27,11 @@ const fetchData = async (
   const queryString: string = queryParams.join('&');
   const finalQueryString = `?${queryString}`;
 
-  try {
-    const response = await fetch(
-      `http://localhost:3000/products${finalQueryString}`
-    );
-    products.value = await response.json();
-    // isLoading.value = false;
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    // isLoading.value = false;
-  }
+  const { data } = await useAsyncApi<Products>(
+    'GET',
+    `http://localhost:3000/products${finalQueryString}`
+  );
+  products.value = data.value;
 };
 </script>
 
