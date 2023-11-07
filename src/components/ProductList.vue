@@ -3,7 +3,7 @@ import type { MappedProduct, Products } from '@/models/products.model.ts';
 import type { WishLists } from '@/models/wish-lists.model.ts';
 import router from '@/router';
 import { onMounted, PropType, ref } from 'vue';
-import useAsyncPatchOrPost from '@/composables/use/patchOrPost.ts';
+import useAsyncApi from '@/composables/use/asyncApi.ts';
 
 const emit = defineEmits(['emitReFetch']);
 
@@ -41,7 +41,7 @@ const addToWishlist = async (id: number) => {
     ? `http://localhost:3000/wishlists/${1337}`
     : 'http://localhost:3000/wishlists';
 
-  const { loading } = await useAsyncPatchOrPost(method, url, postItem);
+  const { loading } = await useAsyncApi(method, url, postItem);
   if (loading) {
     wishlist.value.push(newItem);
 
@@ -73,7 +73,7 @@ const removeFromWishlist = async (
     const url = `http://localhost:3000/wishlists/${groupId}`;
     const method = 'PATCH';
 
-    const { loading } = await useAsyncPatchOrPost(method, url, postItem);
+    const { loading } = await useAsyncApi(method, url, postItem);
 
     if (loading) {
       wishlist.value.splice(index, 1);

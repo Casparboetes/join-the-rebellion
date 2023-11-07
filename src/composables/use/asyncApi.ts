@@ -1,12 +1,12 @@
 import { ref } from 'vue';
 
-export default async function useAsyncPatchOrPost<T>(
+export default async function useAsyncApi<T>(
   method: string,
   url: string,
   body: {
     name: string | undefined;
     id: number | undefined;
-    products: any[] | undefined;
+    products: number[] | undefined;
   }
 ) {
   const data = ref<T | null>(null);
