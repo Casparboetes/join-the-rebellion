@@ -2,7 +2,7 @@
 import ProductList from '@/components/ProductList.vue';
 import type { Products } from '@/models/products.model.ts';
 import useApi from '@/composables/use/api';
-import { ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import SearchBar from '@/components/SearchBar.vue';
 
 const { data: products } = useApi<Products>('http://localhost:3000/products');
@@ -32,6 +32,18 @@ const fetchData = async () => {
   const response = await fetch('http://localhost:3000/wishlists');
   list.value = await response.json();
 };
+
+const handleScroll = () => {
+  hideSearchBar.value = window.scrollY >= 25;
+};
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll);
+});
 </script>
 
 <template>
@@ -78,11 +90,9 @@ const fetchData = async () => {
   &__search-bar {
     margin-top: 2rem;
     transform: scale(0.65);
-    opacity: 1;
     z-index: 20;
 
     &--hide {
-      opacity: 0;
       z-index: 0;
     }
   }
