@@ -3,7 +3,7 @@ import { ref } from 'vue';
 export default async function useAsyncApi<T>(
   method: string,
   url: string,
-  body: {
+  body?: {
     name: string | undefined;
     id: number | undefined;
     products: number[] | undefined;
