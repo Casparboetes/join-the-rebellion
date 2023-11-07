@@ -9,6 +9,7 @@ const { data: products } = useApi<Products>('http://localhost:3000/products');
 
 const list = ref(null);
 const showSearchBar = ref(false);
+const hideSearchBar = ref(false);
 
 const searchForEnlightenment = async (query: string) => {
   const response = await fetch(`http://localhost:3000/products?q=${query}`);
@@ -16,9 +17,11 @@ const searchForEnlightenment = async (query: string) => {
 };
 
 const toggleSearchBar = () => (showSearchBar.value = !showSearchBar.value);
+const toggleHideSearchBar = () => (hideSearchBar.value = !hideSearchBar.value);
 
 defineExpose({
-  toggleSearchBar
+  toggleSearchBar,
+  toggleHideSearchBar
 });
 
 const response = await fetch('http://localhost:3000/wishlists');
@@ -35,6 +38,7 @@ const fetchData = async () => {
   <div class="product-overview">
     <SearchBar
       v-if="showSearchBar"
+      :class="{ 'product-overview__search-bar--hide': hideSearchBar }"
       class="product-overview__search-bar"
       @emit-search-query="searchForEnlightenment"
     />
@@ -74,7 +78,13 @@ const fetchData = async () => {
   &__search-bar {
     margin-top: 2rem;
     transform: scale(0.65);
+    opacity: 1;
     z-index: 20;
+
+    &--hide {
+      opacity: 0;
+      z-index: 0;
+    }
   }
 
   @include screen($screen-minimal) {

@@ -16,7 +16,13 @@ const toggle = ref(false);
 const closeHeaderMenu = () => {
   exposeHeader?.value?.closeMenu();
 };
-const handleToggle = (toggles: boolean) => (toggle.value = toggles);
+const handleToggle = (toggles: boolean) => {
+  toggle.value = toggles;
+  setTimeout(
+    () => exposeComponent?.value.toggleHideSearchBar(),
+    !toggles ? 500 : 0
+  );
+};
 const handleToggleSearchBar = () => exposeComponent?.value.toggleSearchBar();
 </script>
 
