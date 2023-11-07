@@ -34,7 +34,7 @@ const reFetchAll = async () => {
   );
 
   if (!reFetchedData?.value?.products.length) {
-    isEmpty.value = !isEmpty;
+    isEmpty.value = !isEmpty.value;
   }
 
   data.value = reFetchedData.value;
