@@ -20,6 +20,8 @@ const closeHeaderMenu = () => {
 const handleToggle = (toggles: boolean) => {
   toggle.value = toggles;
 
+  if (router.currentRoute.value.path.includes('wish-lists')) return;
+
   if (router.currentRoute.value.name === 'product-overview') {
     setTimeout(
       () => exposeComponent?.value?.toggleHideSearchBar(),
