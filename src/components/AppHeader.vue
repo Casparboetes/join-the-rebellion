@@ -8,6 +8,7 @@ defineProps<{
 
 const emit = defineEmits<{
   emitToggle: [boolean];
+  emitToggleSearchBar: [];
 }>();
 
 const windowWidth = ref(window.innerWidth);
@@ -24,10 +25,8 @@ const closeMenu = () => {
   }
 };
 
-const onClick = () => {
-  // emit to app > then toggles search component ?
-  // or perhaps opens in product overview
-  console.log('Opens search bar');
+const toggleSearchBar = () => {
+  emit('emitToggleSearchBar');
 };
 
 defineExpose({
@@ -76,7 +75,7 @@ onUnmounted(() => {
 
       <button
         class="header__button header__button--search"
-        v-on:click="onClick()"
+        v-on:click="toggleSearchBar()"
       >
         <font-awesome-icon :icon="['fa', 'search']" size="2x" />
       </button>
