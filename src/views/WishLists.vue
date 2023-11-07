@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { WishLists } from '@/models/wish-lists.model.ts';
+import type { WishListsModel } from '@/models/wish-lists.model.ts';
 import router from '@/router';
 import { useRoute } from 'vue-router';
 import useAsyncApi from '@/composables/use/asyncApi.ts';
@@ -8,18 +8,18 @@ import WishList from '@/components/WishList.vue';
 
 const route = useRoute();
 
-const { data: wishLists } = await useAsyncApi<WishLists>(
+const { data: wishLists } = await useAsyncApi<WishListsModel>(
   'GET',
   'http://localhost:3000/wishlists'
 );
 
 const deleteWishList = async () => {
-  await useAsyncApi<WishLists>(
+  await useAsyncApi<WishListsModel>(
     'DELETE',
     `http://localhost:3000/wishlists/${route.params.id}`
   );
 
-  const { data } = await useAsyncApi<WishLists>(
+  const { data } = await useAsyncApi<WishListsModel>(
     'GET',
     'http://localhost:3000/wishlists'
   );

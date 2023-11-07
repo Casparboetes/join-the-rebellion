@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { MappedProduct, Products } from '@/models/products.model.ts';
-import type { WishLists } from '@/models/wish-lists.model.ts';
+import type { WishListsModel } from '@/models/wish-lists.model.ts';
 import router from '@/router';
 import { onMounted, PropType, ref } from 'vue';
 import useAsyncApi from '@/composables/use/asyncApi.ts';
@@ -9,7 +9,7 @@ const emit = defineEmits(['emitReFetch']);
 
 const props = defineProps({
   products: { type: Object as PropType<Products | null>, required: true },
-  list: { type: Object as PropType<WishLists | null> }
+  list: { type: Object as PropType<WishListsModel | null> }
 });
 
 const wishlist = ref<MappedProduct[]>([]);
@@ -244,7 +244,7 @@ onMounted(() => {
     }
 
     &__item:only-child {
-      width: calc(80% - 4rem);
+      width: calc(50% - 4rem);
     }
   }
 

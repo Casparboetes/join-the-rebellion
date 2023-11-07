@@ -4,4 +4,4 @@ export interface WishListInterface {
   products: number[];
 }
 
-export declare type WishLists = WishListInterface[];
+export declare type WishListsModel = WishListInterface[];
