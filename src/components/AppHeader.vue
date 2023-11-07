@@ -184,11 +184,12 @@ onUnmounted(() => {
 
       &:hover {
         color: $c-pink;
-        transform: scale(1.1);
+        transform: scale(1.25);
       }
 
       &:active {
-        transform: scale(1.3);
+        color: $c-pink;
+        transform: scale(1.4);
       }
 
       &:focus-visible {
