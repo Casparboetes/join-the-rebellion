@@ -55,6 +55,7 @@ const fetchData = async () => {
   align-items: center;
   display: flex;
   flex-direction: column;
+  height: 100%;
   justify-content: center;
   padding-bottom: 10rem;
 
@@ -70,7 +71,9 @@ const fetchData = async () => {
   }
 
   &__search-bar {
-    transform: scale(0.7);
+    margin-top: 2rem;
+    transform: scale(0.65);
+    z-index: 20;
   }
 
   @include screen($screen-minimal) {
@@ -86,6 +89,10 @@ const fetchData = async () => {
   }
 
   @include screen($screen-specific) {
+    &__search-bar {
+      margin-top: 3rem;
+    }
+
     &__page-title {
       font-size: 8rem;
       margin: 0 0 2rem 0;
@@ -95,7 +102,16 @@ const fetchData = async () => {
   @include screen($screen-normal) {
     @include container($w-header);
     &__search-bar {
-      transform: scale(1);
+      transform: scale(0.8);
+
+      &--scrolled {
+        //z-index: unset;
+      }
+    }
+  }
+  @include screen($screen-xl) {
+    &__search-bar {
+      transform: scale(0.9);
     }
   }
 }
