@@ -47,8 +47,6 @@ const handleToggle = (toggles: boolean) => (toggle.value = toggles);
 .app {
   &__main {
     min-height: 100vh;
-
-    display: flex;
     flex-direction: row;
     justify-content: space-evenly;
     padding-top: $h-header;
