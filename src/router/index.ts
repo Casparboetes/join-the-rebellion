@@ -25,7 +25,7 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: ':id',
-        component: () => import('@/components/EditWishList.vue')
+        component: () => import('@/views/EditWishList.vue')
       }
     ]
   },
