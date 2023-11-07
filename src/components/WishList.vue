@@ -83,7 +83,7 @@ const viewWishlist = (id: number) => router.push(`/wish-lists/${id}`);
   @include screen($screen-simple) {
     &__item {
       max-width: 100%;
-      width: calc(45%);
+      width: calc(40%);
     }
   }
 }
