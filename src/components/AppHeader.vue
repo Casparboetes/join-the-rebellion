@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { NavItem } from '@/models/nav-item.model.ts';
 import { onMounted, onUnmounted, ref } from 'vue';
+import router from '@/router';
 
 defineProps<{
   navItems: NavItem;
@@ -26,7 +27,8 @@ const closeMenu = () => {
 };
 
 const toggleSearchBar = () => {
-  emit('emitToggleSearchBar');
+  router.push('/');
+  setTimeout(() => emit('emitToggleSearchBar'), 600);
 };
 
 defineExpose({
