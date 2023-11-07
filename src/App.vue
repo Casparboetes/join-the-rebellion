@@ -10,12 +10,14 @@ const navItems = ref<NavItem>([
   { name: 'Wish Lists', path: '/wish-lists', id: 2 }
 ]);
 const exposeHeader = ref();
+const exposeComponent = ref();
 const toggle = ref(false);
 
 const closeHeaderMenu = () => {
   exposeHeader?.value?.closeMenu();
 };
 const handleToggle = (toggles: boolean) => (toggle.value = toggles);
+const handleToggleSearchBar = () => exposeComponent?.value.toggleSearchBar();
 </script>
 
 <template>
@@ -24,6 +26,7 @@ const handleToggle = (toggles: boolean) => (toggle.value = toggles);
       ref="exposeHeader"
       :nav-items="navItems"
       @emit-toggle="handleToggle"
+      @emit-toggle-search-bar="handleToggleSearchBar"
     />
     <AppDrawer
       :is-open="toggle"
@@ -34,7 +37,7 @@ const handleToggle = (toggles: boolean) => (toggle.value = toggles);
       <suspense>
         <router-view v-slot="{ Component }">
           <transition mode="out-in" name="fade">
-            <component :is="Component" />
+            <component :is="Component" ref="exposeComponent" />
           </transition>
         </router-view>
       </suspense>

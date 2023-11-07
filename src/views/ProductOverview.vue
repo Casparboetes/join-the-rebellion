@@ -8,16 +8,17 @@ import SearchBar from '@/components/SearchBar.vue';
 const { data: products } = useApi<Products>('http://localhost:3000/products');
 
 const list = ref(null);
-const openSearch = ref(false);
+const showSearchBar = ref(false);
 
 const searchForEnlightenment = async (query: string) => {
   const response = await fetch(`http://localhost:3000/products?q=${query}`);
   products.value = await response.json();
 };
 
+const toggleSearchBar = () => (showSearchBar.value = !showSearchBar.value);
+
 defineExpose({
-  searchForEnlightenment,
-  openSearch
+  toggleSearchBar
 });
 
 const response = await fetch('http://localhost:3000/wishlists');
@@ -33,7 +34,7 @@ const fetchData = async () => {
 <template>
   <div class="product-overview">
     <SearchBar
-      v-if="openSearch"
+      v-if="showSearchBar"
       class="product-overview__search-bar"
       @emit-search-query="searchForEnlightenment"
     />
