@@ -1,14 +1,33 @@
 <script lang="ts" setup>
-import useApi from '@/composables/use/api';
 import type { WishLists } from '@/models/wish-lists.model.ts';
-import WishList from '@/components/WishList.vue';
-import WishListEmpty from '@/components/WishListEmpty.vue';
 import router from '@/router';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { useRoute } from 'vue-router';
+import useAsyncApi from '@/composables/use/asyncApi.ts';
+import WishListEmpty from '@/components/WishListEmpty.vue';
+import WishList from '@/components/WishList.vue';
 
-const { data: wishLists } = useApi<WishLists>(
+const route = useRoute();
+
+const { data: wishLists } = await useAsyncApi<WishLists>(
+  'GET',
   'http://localhost:3000/wishlists'
 );
+
+const deleteWishList = async () => {
+  await useAsyncApi<WishLists>(
+    'DELETE',
+    `http://localhost:3000/wishlists/${route.params.id}`
+  );
+
+  const { data } = await useAsyncApi<WishLists>(
+    'GET',
+    'http://localhost:3000/wishlists'
+  );
+
+  wishLists.value = data.value;
+
+  await router.push('/wish-lists');
+};
 </script>
 
 <template>
@@ -19,15 +38,37 @@ const { data: wishLists } = useApi<WishLists>(
 
     <hr class="wish-lists__horizontal-line" />
 
-    <button
+    <div
       v-if="router.currentRoute.value.fullPath !== '/wish-lists'"
-      class="wish-lists__button-back"
-      @click="router.back()"
+      class="wish-lists__button-container"
     >
-      <font-awesome-icon :icon="['fas', 'arrow-left-long']" size="3x" />
-    </button>
+      <button
+        class="wish-lists__button wish-lists__button--back"
+        @click="router.back()"
+      >
+        <font-awesome-icon :icon="['fas', 'arrow-left-long']" size="3x" />
+      </button>
 
-    <WishListEmpty v-if="!wishLists" />
+      <button
+        class="wish-lists__button wish-lists__button--delete"
+        @click="deleteWishList()"
+      >
+        <font-awesome-icon
+          :icon="['fas', 'xmark']"
+          class="product-details__button-icon"
+          size="3x"
+        />
+        <span class="wish-lists__button-label">Remove</span>
+      </button>
+    </div>
+
+    <WishListEmpty
+      v-if="
+        !wishLists?.length &&
+        router.currentRoute.value.fullPath === '/wish-lists'
+      "
+      class="wish-lists__is-empty"
+    />
 
     <WishList
       v-if="wishLists && router.currentRoute.value.fullPath === '/wish-lists'"
@@ -42,13 +83,14 @@ const { data: wishLists } = useApi<WishLists>(
 
 <style lang="scss" scoped>
 .wish-lists {
-  align-items: center;
+  @include container($w-header);
+
   display: flex;
   flex-direction: column;
-  justify-content: center;
   padding-bottom: 10rem;
 
   &__page-title {
+    text-align: center;
     text-transform: uppercase;
     font-family: 'Darker Grotesque', serif;
     font-size: 3rem;
@@ -56,30 +98,57 @@ const { data: wishLists } = useApi<WishLists>(
   }
 
   &__horizontal-line {
+    align-self: center;
     border-top: 2px solid $c-black;
     margin-bottom: 4rem;
-    width: 70%;
+    width: 65%;
   }
 
   &__highlight {
     color: $c-pink;
   }
 
-  &__button-back {
+  &__button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  &__button {
+    align-items: center;
     background: none;
     border: none;
     color: inherit;
     cursor: pointer;
-    float: left;
+    display: inline-flex;
     font: inherit;
-    margin: 2rem 80% 4rem auto;
+    margin: 2rem 1rem 4rem 1rem;
     outline: inherit;
     padding: 0;
+    text-align: center;
 
-    &:hover {
-      color: $c-pink;
-      transform: scale(1.1);
+    &--back {
+      &:hover {
+        color: $c-pink;
+        transform: scale(1.1);
+      }
     }
+
+    &--delete {
+      &:hover {
+        color: $c-pink;
+      }
+    }
+  }
+
+  &__button-label {
+    font-size: 2rem;
+    margin-left: 0.8rem;
+    transform: translateY(-0.2rem);
+  }
+
+  &__is-empty {
+    text-align: center;
   }
 
   @include screen($screen-minimal) {
