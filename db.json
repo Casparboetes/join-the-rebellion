@@ -244,14 +244,21 @@
   "wishlists": [
     {
       "id": 1,
-      "name": "Tech Wish List",
-      "products": []
+      "name": "Tech Wishlist",
+      "products": [
+        3,
+        4,
+        5
+      ]
     },
     {
       "id": 2,
       "name": "Audio Gear",
       "products": [
         6,
+        7,
+        8,
+        9,
         10
       ]
     },
@@ -261,6 +268,8 @@
       "products": [
         11,
         12,
+        13,
+        14,
         15
       ]
     },
@@ -270,18 +279,9 @@
       "products": [
         16,
         17,
+        18,
+        19,
         20
-      ]
-    },
-    {
-      "id": 1337,
-      "name": "New list",
-      "products": [
-        2,
-        1,
-        4,
-        3,
-        5
       ]
     }
   ]
